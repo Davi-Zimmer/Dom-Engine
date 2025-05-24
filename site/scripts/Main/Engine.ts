@@ -71,14 +71,17 @@ class _Engine {
 
     private update( drawingObj: DrawingProps ){
 
-        console.log('Ticking')
+        // console.log('Ticking')
 
     }
 
 
 }
 
-NodeManager.loadNodes()
+NodeManager.loadNodes().then( tree => {
+    console.log( tree )
+    
+})
 
 Object.assign( window, {NodeManager} )
 

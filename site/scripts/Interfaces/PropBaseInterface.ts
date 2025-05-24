@@ -1,8 +1,8 @@
-import PropName from "../enum/PropName.js"
+import Node from "../Components/Node.js"
+import RectInterface from "./RectInterface.js"
 
-interface PropBaseInterface {
-    node: Node,
-    name: PropName
+interface PropInterface extends RectInterface {
+    node: Node
 }
 
-export default PropBaseInterface
+export default PropInterface
