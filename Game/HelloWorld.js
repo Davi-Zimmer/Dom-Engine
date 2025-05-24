@@ -1,15 +1,14 @@
 export default function( GameScript ){
 
-    GameScript.Create("Meu script", () => {
+    GameScript.Create('Meu Script', () => {
 
-        console.log( GameScript.node )
-   
-        // GameScript.export({ data: 'test' })
+        const { sayHello } = GameScript.Import('Hello')
+
+        sayHello()
 
     })
 
 }
-
 
 /*
     GameScript.node

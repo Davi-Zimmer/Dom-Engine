@@ -19,13 +19,21 @@ async function executeNodesScripts( Nodes: Node[] ){
         const url = URL.createObjectURL(blob)
         const mod = await import(url)
 
-        if (typeof mod.default === "function") {
+        if ( typeof mod.default === "function" ) {
 
             const gameScript = new GameScript( node, scriptPath, bridge )
             
-            const result:GameScriptResult = mod.default( gameScript )
+            mod.default( gameScript )
 
-            if( result ) bridge[ result.name ] = result.data
+            if( gameScript.dataToExport() ){
+                
+                const { name, data } = gameScript.dataToExport()
+
+                bridge[ name as string ] = data
+            }
+
+            // const result:GameScriptResult = mod.default( gameScript )
+            // if( result ) bridge[ result.name ] = result.data
             
         }
 
