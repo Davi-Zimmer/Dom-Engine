@@ -1,9 +1,11 @@
 export default function( GameScript ){
 
-    return GameScript.Create("Meu script", () => {
+    GameScript.Create("Meu script", () => {
 
         console.log( GameScript.node )
    
+        // GameScript.export({ data: 'test' })
+
     })
 
 }

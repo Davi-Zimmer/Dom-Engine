@@ -140,10 +140,12 @@ const NodeManager = _NodeManager.getInstance()
 
 document.addEventListener('keydown' , e => {
 
-    if( !e.ctrlKey && e.key.toLocaleLowerCase() !== "q" ) return
-    const nodes = NodeManager.getNodes()
+    if( e.ctrlKey && e.key.toLocaleLowerCase() === "q" ) {
+        const nodes = NodeManager.getNodes()
 
-    executeNodesScripts( nodes )
+        executeNodesScripts( nodes )
+
+    }    
    
 })
 
