@@ -1,4 +1,5 @@
 import NodeManager from "../NodeManager.js"
+import Rect from "../Rect.js"
 
 interface DrawingProps {
     canvas: HTMLCanvasElement,
@@ -22,15 +23,40 @@ class _Engine {
 
     }
 
+    private acceptedKeys : Record< string, Function > = {}
+    private executeKeys  : Record< string, Function > = {}
+
+    private setExecuteKeys( key: string, func: Function ) {
+        
+        if( this.executeKeys[ key ] ) return
+        this.executeKeys[ key ] = func
+
+    }
+
+    private keyDown( e: KeyboardEvent ){
+
+        const key = e.key.toLowerCase()
+
+        const func = this.acceptedKeys[ key ]
+
+        if( func ) this.setExecuteKeys( key, func )
+
+    }
+
+    private keyUp( e: KeyboardEvent ){
+        
+        const key = e.key.toLocaleLowerCase()
+
+        delete this.executeKeys[ key ]
+
+    }
+
     private addEvents( canvas: HTMLElement ){
         
-        canvas.addEventListener('keydown', e => {
+        canvas.addEventListener('keydown', e => this.keyDown(e) )
 
-        })
 
-        canvas.addEventListener('keyup', e => {
-            
-        })
+        canvas.addEventListener('keyup', e => this.keyUp( e ) )
 
     }
 
@@ -39,6 +65,9 @@ class _Engine {
         const canvas = document.querySelector('canvas')
 
         if( !canvas ) throw new Error('Não existe um canvas')
+        
+        canvas.width = innerWidth
+        canvas.height = innerHeight
 
         const ctx = canvas.getContext('2d')
 
@@ -54,6 +83,8 @@ class _Engine {
         this.addEvents( canvas )
 
         this.loop({ canvas, ctx })
+
+        this.start()
         
     }
 
@@ -69,10 +100,52 @@ class _Engine {
         LOOP()
     }
 
+    private tickGameThings( ){
+
+        for( const key in this.executeKeys ){
+
+            const func = this.executeKeys[ key ]
+
+            const stop = func()
+
+            if( stop ) delete this.executeKeys[ key ]
+
+        }
+
+    }
+
+    public addAcceptedKey( key: string, func: Function ){
+        this.acceptedKeys[ key ] = func
+    }
+
+    public removeAcceptedKey( key:string ){
+        delete this.acceptedKeys[ key ]
+    }
+
+    
+    //---------------------------------------------------------------------\\
+    
+    private gameObjects:Rect[] = []
+
+
+    private start(){
+
+        this.addAcceptedKey('k', () => console.log('Hello!'))
+        
+    }
+
     private update( drawingObj: DrawingProps ){
 
-        // console.log('Ticking')
+        this.tickGameThings()
+        //console.log('Ticking')
 
+        const sortedObjects = this.gameObjects.sort( ( a, b ) => a.getZ() - b.getZ()  )
+
+        sortedObjects.forEach( obj => {
+
+            // obj.update( drawingObj )
+
+        })
     }
 
 
