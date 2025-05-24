@@ -1,5 +1,6 @@
 import Attribute from "./Components/Attribute.js"
 import Node from "./Components/Node.js"
+import executeNodesScripts from "./Main/Utils/ExecuteNodeScripts.js"
 import Get from "./Main/Utils/Get.js"
 import Prop from "./Props/Prop.js"
 
@@ -136,6 +137,17 @@ class _NodeManager {
 }
 
 const NodeManager = _NodeManager.getInstance()
+
+document.addEventListener('keydown' , e => {
+
+    if( !e.ctrlKey && e.key.toLocaleLowerCase() !== "q" ) return
+    const nodes = NodeManager.getNodes()
+
+    executeNodesScripts( nodes )
+   
+})
+
+
 
 export default NodeManager
 
