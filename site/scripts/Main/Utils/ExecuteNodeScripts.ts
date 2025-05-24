@@ -5,7 +5,7 @@ async function executeNodesScripts( Nodes: Node[] ){
 
     for( let node of Nodes ){
 
-        const scritpPath = node.attributes?.script
+        const scritpPath = node.getAttributes()?.script
         
         if( !scritpPath ) continue
 

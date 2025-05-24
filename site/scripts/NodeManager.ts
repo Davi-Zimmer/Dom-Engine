@@ -1,6 +1,7 @@
 import Attribute from "./Components/Attribute.js"
 import Node from "./Components/Node.js"
 import Get from "./Main/Utils/Get.js"
+import Prop from "./Props/Prop.js"
 
 class _NodeManager {
 
@@ -21,15 +22,27 @@ class _NodeManager {
         
         const attr = new Attribute({})
         
-        const attrRejex = /(\w+)=["']([^"']+)["']/g
+        const attrRejex = /(!?)(\w+)(=(["'])(.*?)\4)?/g
 
         let match
 
         while ( match = attrRejex.exec( attrStr ) ) {
 
-            let attributeName = match[1] as keyof Attribute
+            const isNegaded = match[1] === '!'
 
-            attr.bind( attributeName, match[2] )
+            let attributeName = match[2] as keyof Attribute
+
+            if( match[5] !== undefined ) {
+
+                const number = Number( match[5] )
+
+                let content:string | number = match[5]
+
+                if( !isNaN( number ) ) content = number
+
+                attr.bind( attributeName, content )
+            }
+            else attr.bind( attributeName, !isNegaded )
 
         }
 
@@ -40,7 +53,7 @@ class _NodeManager {
         const tagRegex = /<!--([\s\S]*?)-->|<(\w+)([^>]*)\/?>|<\/(\w+)>/g
         let stack = []
 
-        let root = new Node({ tag: 'root' })
+        let root = new Node({ tag: 'Root' })
         
         let current = root
 
@@ -53,14 +66,17 @@ class _NodeManager {
             if ( commentContent !== undefined ) continue
             else if( openTag ) {
 
+    
                 const node = new Node({
                     tag: openTag,
                     attributes: this.parseAttributes( attrStr )
                 })
 
+                if( !node.getAttributes()?.noProp ){ node.setPropInstance( new Prop({ node } ) ) }
+
                 this.nodes.push( node )
 
-                current.children.push( node )
+                current.appendChild( node )
                 
                 if( !full.endsWith("/>") ){
 
@@ -74,8 +90,8 @@ class _NodeManager {
 
             else if( closeTag ) {
                 
-                if( current.tag !== closeTag )
-                    throw new Error(`Mismatched closing tag: expected </${current.tag}> but found </${closeTag}>`)
+                if( current.getTag() !== closeTag )
+                    throw new Error(`Mismatched closing tag: expected </${current.getTag()}> but found </${closeTag}>`)
                 
                 current = stack.pop()!
 
@@ -83,7 +99,7 @@ class _NodeManager {
 
         }
 
-        return root.children
+        return root.getChildNodes()
 
     }
     
@@ -97,24 +113,24 @@ class _NodeManager {
         return tree
     }
 
-    public getNodesByAttribute( attr: string, value: number|string ){
-        return this.nodes.filter( n => n.attributes?.[attr as keyof Attribute] === value )
+    public getAllNodesByAttribute( attr: string, value: number|string ){
+        return this.nodes.filter( n => n.getAttributes()?.[attr as keyof Attribute] === value )
     }
 
     public getNodeByAttribute( attr: string, value: number|string ){
-        return this.nodes.find( n => n.attributes?.[attr as keyof Attribute] === value )
+        return this.nodes.find( n => n.getAttributes()?.[attr as keyof Attribute] === value )
     }
 
-   public getNodeById( id: string ){
+    public getNodeById( id: string ){
         return this.getNodeByAttribute('id', id )
     }
 
-    public getNodeByClass ( tag: string ){
-        return this.nodes.filter( n => n.tag === tag ) 
+    public getNodeByTag ( tag: string ){
+        return this.nodes.filter( n => n.getTag() === tag ) 
     }
 
-    public getNodesByclass( className: string ){
-        return this.getNodeByAttribute('class', className)
+    public getAllNodesByclass( className: string ){
+        return this.getNodeByAttribute( 'class', className )
     }
 
 }
