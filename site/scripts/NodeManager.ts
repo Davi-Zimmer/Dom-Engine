@@ -138,19 +138,6 @@ class _NodeManager {
 
 const NodeManager = _NodeManager.getInstance()
 
-document.addEventListener('keydown' , e => {
-
-    if( e.ctrlKey && e.key.toLocaleLowerCase() === "q" ) {
-        const nodes = NodeManager.getNodes()
-
-        executeNodesScripts( nodes )
-
-    }    
-   
-})
-
-
-
 export default NodeManager
 
 /*
