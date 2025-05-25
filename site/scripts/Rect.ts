@@ -6,14 +6,14 @@ class Rect {
 
     constructor( p : RectInterface ){
 
-        Object.assign( this, p )
+        Object.assign( this.position, p )
 
     }
 
     public getRect(){ return this.position }
 
-    public getMiddle() {
-        const { x, y, w, h } = this.position
+    public static getMiddle( pos: {x:number, y: number, w:number, h:number }) {
+        const { x, y, w, h } = pos
         
         return {
             x: x + w / 2,

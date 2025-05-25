@@ -1,4 +1,4 @@
-import EventHandler from "./Utils/EventHandler.js"
+import EventManager from "../Managers/EventManager.js"
 
 class Bridge {
 
@@ -6,15 +6,15 @@ class Bridge {
         
     constructor (){
 
-        this.data.EventHandler = {
-            onPress : EventHandler.onPress.bind( EventHandler ),
-            onDown  : EventHandler.onDown.bind( EventHandler ),
-            onUp    : EventHandler.onUp.bind( EventHandler ),
+        this.data.EventManager = {
+            onPress : EventManager.onPress.bind( EventManager ),
+            onDown  : EventManager.onDown.bind( EventManager ),
+            onUp    : EventManager.onUp.bind( EventManager ),
 
-            onMouseDown : EventHandler.onMouseDown.bind( EventHandler ),
-            onMouseUp   : EventHandler.onMouseUp.bind( EventHandler ),
-            onMouseMove : EventHandler.onMouseMove.bind( EventHandler ),
-            onMouseWheel: EventHandler.onMouseWheel.bind( EventHandler )
+            onMouseDown : EventManager.onMouseDown.bind( EventManager ),
+            onMouseUp   : EventManager.onMouseUp.bind( EventManager ),
+            onMouseMove : EventManager.onMouseMove.bind( EventManager ),
+            onMouseWheel: EventManager.onMouseWheel.bind( EventManager )
         }
 
     }
