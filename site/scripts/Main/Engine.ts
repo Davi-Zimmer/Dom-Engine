@@ -1,11 +1,9 @@
+import DrawingInterface from "../Interfaces/DrawingInterface.js"
 import NodeManager from "../NodeManager.js"
+import Prop from "../Props/Prop.js"
 import Rect from "../Rect.js"
 import EventHandler from "./Utils/EventHandler.js"
-
-interface DrawingProps {
-    canvas: HTMLCanvasElement,
-    ctx: CanvasRenderingContext2D
-}
+import executeNodesScripts from "./Utils/ExecuteNodeScripts.js"
 
 class _Engine {
     
@@ -52,7 +50,7 @@ class _Engine {
         
     }
 
-    private loop( drawingObj: DrawingProps){
+    private loop( drawingObj: DrawingInterface){
 
         const LOOP = () => {
             
@@ -74,8 +72,12 @@ class _Engine {
     
     //---------------------------------------------------------------------\\
     
-    private gameObjects:Rect[] = []
+    public reloadGame(){
 
+        const nodes = NodeManager.getNodes()
+        executeNodesScripts( nodes )
+
+    }
 
     private start(){
         
@@ -83,16 +85,17 @@ class _Engine {
         
     }
 
-    private update( drawingObj: DrawingProps ){
+    private update( drawingObj: DrawingInterface ){
 
         this.tickGameThings()
-        //console.log('Ticking')
 
-        const sortedObjects = this.gameObjects.sort( ( a, b ) => a.getZ() - b.getZ()  )
+        const nodes = NodeManager.getNodes() 
 
-        sortedObjects.forEach( obj => {
+        const sortedNodes = nodes.sort( ( a, b ) => a.getPropInstance()?.getZ()! - b.getPropInstance()?.getZ()!  )
 
-            // obj.update( drawingObj )
+        sortedNodes.forEach( node => {
+
+            node.getPropInstance()?.update( drawingObj  )
 
         })
     }
@@ -105,9 +108,17 @@ NodeManager.loadNodes().then( tree => {
     
 })
 
-Object.assign( window, {NodeManager} )
+Object.assign( window, { NodeManager } )
 
 
 const Engine = _Engine.getInstance()
 
+document.addEventListener('keydown' , e => {
+
+    if( e.ctrlKey && e.key.toLocaleLowerCase() === "q" ) {
+        
+        Engine.reloadGame()
+    }    
+   
+})
 export default Engine
