@@ -1,15 +1,17 @@
 import Node from "../../Components/Node.js"
+import Bridge from "../Bridge.js"
+import EventHandler from "./EventHandler.js"
 
 class GameScript {
 
     private node     : Node
     private filePath : string
-    private bridge   : Record< string, unknown >
+    private bridge   : Bridge
     private name     : string = ''
 
     private toExportData : Record< string, unknown > = {}
 
-    constructor ( node: Node, filePath: string, bridge: Record< string, unknown >){
+    constructor ( node: Node, filePath: string, bridge: Bridge ){
 
         this.node = node
         this.filePath = filePath
@@ -18,13 +20,13 @@ class GameScript {
 
     public dataToExport(){ return this.toExportData }
 
-    SetScriptName( name:string ){
+    public SetScriptName( name:string ){
         if( this.name !== '' ) throw new Error('O nome do script já foi definido.')
 
         this.name = name
     }
 
-    Create( nameOrFunc: string | Function, func: Function ){
+    public Create( nameOrFunc: string | Function, func: Function ){
 
         let name
 
@@ -54,18 +56,18 @@ class GameScript {
 
     }
 
-    Export( data: Record< string, unknown > ){
+    public Export( data: Record< string, unknown > ){
 
-        if( this.bridge[ this.name ] )
+        if( this.bridge.getData( this.name ) )
             throw new Error(`Já existe um script com o nome "${this.name}" sendo exportado.`)
         
 
         this.toExportData = { data, name:this.name } 
     }
 
-    Import( scriptName: string ){ 
+    public Import( scriptName: string ){ 
 
-        const data = this.bridge[ scriptName ]
+        const data = this.bridge.getData( scriptName )
 
         if( !data )
             throw new Error(`Importação falha: Não foi possível importar os dados de ${scriptName}, pois eles não existem ou não foram declarados antes.`)
@@ -73,6 +75,17 @@ class GameScript {
         return data
     }
 
+
+    /// inacabado
+    public Log( data: unknown ){
+
+        const { name, filePath } = this
+
+        console.warn(`Script "${name}" em ${filePath}\n${data}`)
+
+    }
+
+    public EventHandler = EventHandler
 }
 
 export default GameScript
