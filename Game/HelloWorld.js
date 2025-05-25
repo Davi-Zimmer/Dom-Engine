@@ -2,10 +2,17 @@ export default function( GameScript ){
 
     GameScript.Create('Meu Script', () => {
 
+        const { onPress } = GameScript.Import('EventHandler')
+        const e = GameScript.Import('EventHandler')
+
         const { sayHello } = GameScript.Import('Hello')
 
-        sayHello()
+        onPress('w', sayHello )
 
+        e.onUp('s', () => {
+            console.log('HAHA!')
+        })
+        
     })
 
 }

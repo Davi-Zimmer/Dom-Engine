@@ -1,5 +1,6 @@
 import NodeManager from "../NodeManager.js"
 import Rect from "../Rect.js"
+import EventHandler from "./Utils/EventHandler.js"
 
 interface DrawingProps {
     canvas: HTMLCanvasElement,
@@ -23,43 +24,6 @@ class _Engine {
 
     }
 
-    private acceptedKeys : Record< string, Function > = {}
-    private executeKeys  : Record< string, Function > = {}
-
-    private setExecuteKeys( key: string, func: Function ) {
-        
-        if( this.executeKeys[ key ] ) return
-        this.executeKeys[ key ] = func
-
-    }
-
-    private keyDown( e: KeyboardEvent ){
-
-        const key = e.key.toLowerCase()
-
-        const func = this.acceptedKeys[ key ]
-
-        if( func ) this.setExecuteKeys( key, func )
-
-    }
-
-    private keyUp( e: KeyboardEvent ){
-        
-        const key = e.key.toLocaleLowerCase()
-
-        delete this.executeKeys[ key ]
-
-    }
-
-    private addEvents( canvas: HTMLElement ){
-        
-        canvas.addEventListener('keydown', e => this.keyDown(e) )
-
-
-        canvas.addEventListener('keyup', e => this.keyUp( e ) )
-
-    }
-
     private configureCanvas(){
         
         const canvas = document.querySelector('canvas')
@@ -80,7 +44,7 @@ class _Engine {
 
         const { canvas, ctx } = this.configureCanvas()
 
-        this.addEvents( canvas )
+        EventHandler.addEvents( canvas )
 
         this.loop({ canvas, ctx })
 
@@ -102,25 +66,10 @@ class _Engine {
 
     private tickGameThings( ){
 
-        for( const key in this.executeKeys ){
-
-            const func = this.executeKeys[ key ]
-
-            const stop = func()
-
-            if( stop ) delete this.executeKeys[ key ]
-
-        }
+        EventHandler.executeKeyActions()
 
     }
 
-    public addAcceptedKey( key: string, func: Function ){
-        this.acceptedKeys[ key ] = func
-    }
-
-    public removeAcceptedKey( key:string ){
-        delete this.acceptedKeys[ key ]
-    }
 
     
     //---------------------------------------------------------------------\\
@@ -129,8 +78,8 @@ class _Engine {
 
 
     private start(){
-
-        this.addAcceptedKey('k', () => console.log('Hello!'))
+        
+       
         
     }
 
