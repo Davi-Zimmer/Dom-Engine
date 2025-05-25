@@ -1,13 +1,21 @@
 export default function( GameScript ){
 
-    return GameScript.Create("Meu script", () => {
+    GameScript.Create('Meu Script', () => {
 
-        console.log( GameScript.node )
-   
+        const { onPress } = GameScript.Import('EventHandler')
+        const e = GameScript.Import('EventHandler')
+
+        const { sayHello } = GameScript.Import('Hello')
+
+        onPress('w', sayHello )
+
+        e.onUp('s', () => {
+            console.log('HAHA!')
+        })
+        
     })
 
 }
-
 
 /*
     GameScript.node

@@ -1,11 +1,18 @@
 import Node from "../../Components/Node.js"
-import GameScriptResult from "../../Interfaces/GameScriptResultInterface.js"
+import Bridge from "../Bridge.js"
+import EventHandler from "./EventHandler.js"
 import GameScript from "./GameScripts.js"
 import Get from "./Get.js"
 
+function resetLastGameData(){
+    EventHandler.reset()
+}
+
 async function executeNodesScripts( Nodes: Node[] ){
 
-    const bridge: Record< string, unknown > = {}
+    resetLastGameData()
+
+    const bridge = new Bridge()
 
     for( let node of Nodes ){
 
@@ -14,18 +21,22 @@ async function executeNodesScripts( Nodes: Node[] ){
         if( !scriptPath ) continue
 
         const code = await Get( scriptPath )
-
         const blob = new Blob([code], { type: 'application/javascript' })
         const url = URL.createObjectURL(blob)
         const mod = await import(url)
 
-        if (typeof mod.default === "function") {
+        if ( typeof mod.default === "function" ) {
 
             const gameScript = new GameScript( node, scriptPath, bridge )
             
-            const result:GameScriptResult = mod.default( gameScript )
+            mod.default( gameScript )
 
-            if( result ) bridge[ result.name ] = result.data
+            if( gameScript.dataToExport() ){
+                
+                const { name, data } = gameScript.dataToExport()
+
+                bridge.addData( name as string, data )
+            }
             
         }
 

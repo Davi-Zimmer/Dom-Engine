@@ -1,4 +1,6 @@
 import NodeManager from "../NodeManager.js"
+import Rect from "../Rect.js"
+import EventHandler from "./Utils/EventHandler.js"
 
 interface DrawingProps {
     canvas: HTMLCanvasElement,
@@ -22,23 +24,14 @@ class _Engine {
 
     }
 
-    private addEvents( canvas: HTMLElement ){
-        
-        canvas.addEventListener('keydown', e => {
-
-        })
-
-        canvas.addEventListener('keyup', e => {
-            
-        })
-
-    }
-
     private configureCanvas(){
         
         const canvas = document.querySelector('canvas')
 
         if( !canvas ) throw new Error('Não existe um canvas')
+        
+        canvas.width = innerWidth
+        canvas.height = innerHeight
 
         const ctx = canvas.getContext('2d')
 
@@ -51,9 +44,11 @@ class _Engine {
 
         const { canvas, ctx } = this.configureCanvas()
 
-        this.addEvents( canvas )
+        EventHandler.addEvents( canvas )
 
         this.loop({ canvas, ctx })
+
+        this.start()
         
     }
 
@@ -69,10 +64,37 @@ class _Engine {
         LOOP()
     }
 
+    private tickGameThings( ){
+
+        EventHandler.executeKeyActions()
+
+    }
+
+
+    
+    //---------------------------------------------------------------------\\
+    
+    private gameObjects:Rect[] = []
+
+
+    private start(){
+        
+       
+        
+    }
+
     private update( drawingObj: DrawingProps ){
 
-        // console.log('Ticking')
+        this.tickGameThings()
+        //console.log('Ticking')
 
+        const sortedObjects = this.gameObjects.sort( ( a, b ) => a.getZ() - b.getZ()  )
+
+        sortedObjects.forEach( obj => {
+
+            // obj.update( drawingObj )
+
+        })
     }
 
 
