@@ -2,6 +2,8 @@ import KeyEvent from "./KeyEvent.js"
 
 type KeyFunc = ( e: KeyEvent ) => void
 
+type MouseFunc = ( e: MouseEvent ) => void
+
 interface KeyHandlers {
     onPress : Set< KeyFunc >
     onDown  : Set< KeyFunc >
@@ -24,6 +26,29 @@ class _EventHandler {
 
     } 
 
+    public reset(){ 
+        this.keyMap = {}
+
+        this.mouseDownCallbacks  = {}
+        this.mouseUpCallbacks    = {}
+        this.mouseMoveCallbacks  = []
+        this.mouseWheelCallbacks = []
+    }
+
+
+    public addEvents( canvas: HTMLCanvasElement ){
+        canvas.addEventListener('keydown'  , e => this.keyDown( e ) )
+        canvas.addEventListener('keyup'    , e => this.keyUp( e ) )
+
+        canvas.addEventListener('mousedown'  , e => this.mouseDown( e ))
+        canvas.addEventListener('mouseup'    , e => this.mouseUp( e ))
+        canvas.addEventListener('wheel'      , e => this.mouseWheel( e ))
+        canvas.addEventListener('mousemove'  , e => this.mouseMove( e ))
+        canvas.addEventListener('contextmenu', e => this.mouseContextMenu( e ))
+    }
+
+
+    //-------------------- Key Events -------------------- \\
     private keyMap: Record< string, KeyHandlers> = {}
 
     private keyDown( e: KeyboardEvent ){
@@ -71,11 +96,6 @@ class _EventHandler {
 
             for( const callback of data.onUp ) callback( evt )
         }
-    }
-
-    public addEvents( canvas: HTMLCanvasElement ){
-        canvas.addEventListener('keydown', e => this.keyDown( e ) )
-        canvas.addEventListener('keyup'  , e => this.keyUp( e ) )
     }
 
     private ensureKey( key: string ) {
@@ -133,8 +153,70 @@ class _EventHandler {
         this.keyMap[ key ].onPress.add( callback )
     }
 
-    public reset(){ this.keyMap = {} }
+    //-------------------- Mouse Events -------------------- \\
 
+    private mouseDownCallbacks : Record<number, Function[]> = {}
+    private mouseUpCallbacks   : Record<number, Function[]> = {}
+    private mouseMoveCallbacks : Function[] = []
+    private mouseWheelCallbacks: Function[] = []
+
+    private mouseDown( e: MouseEvent ) {
+        
+        const callback = this.mouseDownCallbacks[ e.button ]
+
+        if( callback ) callback.forEach( cb => cb( e ) )
+
+    }
+
+    private mouseUp( e: MouseEvent ){
+        
+        const callback = this.mouseUpCallbacks[ e.button ]
+
+        if( callback ) callback.forEach( cb => cb( e ) )
+
+    }
+
+    private mouseMove( e: MouseEvent ){
+        this.mouseMoveCallbacks.forEach( callback => callback( e ) )
+    }
+
+    private mouseWheel( e: MouseEvent ){
+        this.mouseWheelCallbacks.forEach( callback => callback( e ) )
+    }
+
+    private mouseContextMenu( e: MouseEvent ){
+
+        e.preventDefault()
+
+        const callback = this.mouseDownCallbacks[ e.button ]
+
+        if( callback ) callback.forEach( cb => cb( e ) )
+
+    }
+
+    public onMouseDown( button: number, callback: MouseFunc) {
+
+        if( !this.mouseDownCallbacks[ button ] ) this.mouseDownCallbacks[ button ] = []
+
+        this.mouseDownCallbacks[button].push( callback )
+
+    }
+
+    public onMouseUp( button: number, callback: MouseFunc) {
+
+        if( !this.mouseUpCallbacks[ button ] ) this.mouseUpCallbacks[ button ] = []
+
+        this.mouseUpCallbacks[button].push( callback )
+        
+    }
+
+    public onMouseMove( callback: MouseFunc ) {
+        this.mouseMoveCallbacks.push( callback )
+    }
+
+    public onMouseWheel( callback: MouseFunc ){
+        this.mouseWheelCallbacks.push( callback )
+    }
 
 }
 

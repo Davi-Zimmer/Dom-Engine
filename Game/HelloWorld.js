@@ -12,6 +12,10 @@ export default function( GameScript ){
         e.onUp('s', () => {
             console.log('HAHA!')
         })
+
+        e.onMouseUp(2, () => {
+            console.log('click')
+        })
         
     })
 

@@ -10,6 +10,11 @@ class Bridge {
             onPress : EventHandler.onPress.bind( EventHandler ),
             onDown  : EventHandler.onDown.bind( EventHandler ),
             onUp    : EventHandler.onUp.bind( EventHandler ),
+
+            onMouseDown : EventHandler.onMouseDown.bind( EventHandler ),
+            onMouseUp   : EventHandler.onMouseUp.bind( EventHandler ),
+            onMouseMove : EventHandler.onMouseMove.bind( EventHandler ),
+            onMouseWheel: EventHandler.onMouseWheel.bind( EventHandler )
         }
 
     }
