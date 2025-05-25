@@ -1,9 +1,8 @@
 import DrawingInterface from "../Interfaces/DrawingInterface.js"
-import NodeManager from "../NodeManager.js"
-import Prop from "../Props/Prop.js"
+import NodeManager from "../Managers/NodeManager.js"
+import EventManager from "../Managers/EventManager.js"
+import executeNodesScripts from "../ExecuteNodeScripts.js"
 import Rect from "../Rect.js"
-import EventHandler from "./Utils/EventHandler.js"
-import executeNodesScripts from "./Utils/ExecuteNodeScripts.js"
 
 class _Engine {
     
@@ -42,7 +41,7 @@ class _Engine {
 
         const { canvas, ctx } = this.configureCanvas()
 
-        EventHandler.addEvents( canvas )
+        EventManager.addEvents( canvas )
 
         this.loop({ canvas, ctx })
 
@@ -62,13 +61,23 @@ class _Engine {
         LOOP()
     }
 
-    private tickGameThings( ){
+    private tickGameThings(){
 
-        EventHandler.executeKeyActions()
+        EventManager.executeKeyActions()
 
     }
 
+    public isColliding( rect1: Rect, rect2:Rect ){
+        const a = rect1.getRect()
+        const b = rect2.getRect()
 
+        return (
+            a.x + a.w > b.x &&
+            a.y + a.h > b.y &&
+            a.x < b.x + b.w &&
+            a.y < b.y + b.h 
+        )
+    }
     
     //---------------------------------------------------------------------\\
     
@@ -95,7 +104,11 @@ class _Engine {
 
         sortedNodes.forEach( node => {
 
-            node.getPropInstance()?.update( drawingObj  )
+            const instance = node.getPropInstance()
+
+            if( !instance ) return  
+
+            instance.update( drawingObj  )
 
         })
     }
@@ -105,7 +118,6 @@ class _Engine {
 
 NodeManager.loadNodes().then( tree => {
     console.log( tree )
-    
 })
 
 Object.assign( window, { NodeManager } )

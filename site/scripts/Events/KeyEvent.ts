@@ -1,11 +1,4 @@
-export interface KeyEventInterface {
-    key       : string
-    actived   : boolean
-    canceled  : boolean
-    ctrlKey   : boolean
-    shiftKey  : boolean
-    altKey    : boolean
-}
+import KeyEventInterface from "../Interfaces/KeyEventInterface"
 
 class KeyEvent {
 
@@ -15,7 +8,7 @@ class KeyEvent {
     public shiftKey  : boolean
     public altKey    : boolean
 
-    constructor({ key, actived, canceled, ctrlKey, shiftKey, altKey }: KeyEventInterface ){
+    constructor({ key, actived, ctrlKey, shiftKey, altKey }: KeyEventInterface ){
         this.key      = key
         this.actived  = actived
         this.ctrlKey  = ctrlKey

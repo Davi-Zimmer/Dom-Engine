@@ -1,26 +1,16 @@
-import KeyEvent from "./KeyEvent.js"
+import KeyEvent from "../Events/KeyEvent.js"
+import KeyHandlersInterface from "../Interfaces/KeyHandlersInterface.js"
+import { KeyFunc, MouseFunc } from "../Types/AllTypes.js"
 
-type KeyFunc = ( e: KeyEvent ) => void
+class _EventManager {
 
-type MouseFunc = ( e: MouseEvent ) => void
-
-interface KeyHandlers {
-    onPress : Set< KeyFunc >
-    onDown  : Set< KeyFunc >
-    onUp    : Set< KeyFunc >
-    pressed : boolean
-}
-
-
-class _EventHandler {
-
-    private static Instance: _EventHandler
+    private static Instance: _EventManager
 
     private constructor(){}
 
     static GetInstance(){
 
-        if( !this.Instance ) this.Instance = new _EventHandler()
+        if( !this.Instance ) this.Instance = new _EventManager()
 
         return this.Instance
 
@@ -49,7 +39,7 @@ class _EventHandler {
 
 
     //-------------------- Key Events -------------------- \\
-    private keyMap: Record< string, KeyHandlers> = {}
+    private keyMap: Record< string, KeyHandlersInterface> = {}
 
     private keyDown( e: KeyboardEvent ){
         
@@ -194,7 +184,7 @@ class _EventHandler {
 
     }
 
-    public onMouseDown( button: number, callback: MouseFunc) {
+    public onMouseDown( button: number, callback: MouseFunc ) {
 
         if( !this.mouseDownCallbacks[ button ] ) this.mouseDownCallbacks[ button ] = []
 
@@ -221,6 +211,6 @@ class _EventHandler {
 }
 
 
-const EventHandler = _EventHandler.GetInstance()
+const EventManager = _EventManager.GetInstance()
 
-export default EventHandler
+export default EventManager

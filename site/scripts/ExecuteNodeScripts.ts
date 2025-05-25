@@ -1,11 +1,11 @@
-import Node from "../../Components/Node.js"
-import Bridge from "../Bridge.js"
-import EventHandler from "./EventHandler.js"
-import GameScript from "./GameScripts.js"
-import Get from "./Get.js"
+import Node from "./Components/Node.js"
+import Bridge from "./Main/Bridge.js"
+import EventManager from "./Managers/EventManager.js"
+import GameScript from "./Main/Utils/GameScripts.js"
+import Get from "./Main/Utils/Get.js"
 
 function resetLastGameData(){
-    EventHandler.reset()
+    EventManager.reset()
 }
 
 async function executeNodesScripts( Nodes: Node[] ){

@@ -1,6 +1,5 @@
 import Node from "../../Components/Node.js"
 import Bridge from "../Bridge.js"
-import EventHandler from "./EventHandler.js"
 
 class GameScript {
 
@@ -70,11 +69,10 @@ class GameScript {
         const data = this.bridge.getData( scriptName )
 
         if( !data )
-            throw new Error(`Importação falha: Não foi possível importar os dados de ${scriptName}, pois eles não existem ou não foram declarados antes.`)
+            throw new Error(`Importação falha: Não foi possível importar os dados de "${scriptName}", pois eles não existem ou não foram declarados antes.`)
 
         return data
     }
-
 
     /// inacabado
     public Log( data: unknown ){
@@ -85,7 +83,6 @@ class GameScript {
 
     }
 
-    public EventHandler = EventHandler
 }
 
 export default GameScript

@@ -1,8 +1,7 @@
-import Attribute from "./Components/Attribute.js"
-import Node from "./Components/Node.js"
-import executeNodesScripts from "./Main/Utils/ExecuteNodeScripts.js"
-import Get from "./Main/Utils/Get.js"
-import Prop from "./Props/Prop.js"
+import Attribute from "../Components/Attribute.js"
+import Node from "../Components/Node.js"
+import Get from "../Main/Utils/Get.js"
+import Prop from "../Props/Prop.js"
 
 class _NodeManager {
 
@@ -139,29 +138,3 @@ class _NodeManager {
 const NodeManager = _NodeManager.getInstance()
 
 export default NodeManager
-
-/*
-const keyFuncs: Record<string, () => void > = {
-    q:  async () => console.log( await LoadHtml() ),
-    e:  () => executeNodesScripts( Nodes ),
-    a:  async () => console.log( JSON.stringify( await LoadHtml(), null, 2 ) )
-}
-
-document.addEventListener('keydown', e => {
-    if( !e.ctrlKey ) return
-
-    const key = e.key.toLowerCase()
-
-    const func = keyFuncs[ key ]
-
-    if( func ){
-
-        e.preventDefault()
-
-        func()
-    }
-    
-})
-
-
-*/
