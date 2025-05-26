@@ -24,6 +24,10 @@ class Attribute {
 
     }
 
+    getPossibleAttribute( attr: string ){
+        return this[ attr as keyof Attribute ] as number || undefined
+    }
+
 }
 
 export default Attribute

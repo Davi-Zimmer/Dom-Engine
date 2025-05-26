@@ -52,6 +52,8 @@ Os parâmetros são dinâmicos. Assim como as tags, não há restrições — vo
 * `script`: exclusivo para scripts.
 * `content`: sem definição (reservado para uso futuro).
 
+* `x`, `y`, `w`, `h` e `z`: definição de posição e tamanho.
+
 
 ### Parâmetros booleanos
 Ao informar apenas o nome de um parâmetro, ele será interpretado como `true`.

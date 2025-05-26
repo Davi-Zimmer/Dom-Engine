@@ -22,17 +22,20 @@ class Rect {
 
     }
 
-    public setX( x: number ){ this.position.x = x }
-    public setY( y: number ){ this.position.y = y }
-    public setW( w: number ){ this.position.w = w }
-    public setH( h: number ){ this.position.h = h }
-    public setZ( z: number ){ this.position.z = z }
+    public setX = ( x: number ) => { this.position.x = x }
+    public setY = ( y: number ) => { this.position.y = y }
+    public setW = ( w: number ) => { this.position.w = w }
+    public setH = ( h: number ) => { this.position.h = h }
+    public setZ = ( z: number ) => { this.position.z = z }
 
-    public getX(){ return this.position.x }
-    public getY(){ return this.position.y }
-    public getW(){ return this.position.w }
-    public getH(){ return this.position.h }
-    public getZ(){ return this.position.z }
+    public getX = () => { return this.position.x }
+    public getY = () => { return this.position.y }
+    public getW = () => { return this.position.w }
+    public getH = () => { return this.position.h }
+    public getZ = () => { return this.position.z }
+
+    public moveX = ( xx:number ) => { this.position.x += xx }
+    public moveY = ( yy:number ) => { this.position.y += yy }
 
 }
 

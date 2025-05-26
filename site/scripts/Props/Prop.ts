@@ -31,37 +31,45 @@ class Prop extends Rect {
         this.setup()
     }
 
+    public updatePosition = ({ x, y, w, h, z }: RectInterface) => {
+        this.setX( x || this.getX() )
+        this.setY( y || this.getY() )
+        this.setW( w || this.getW() )
+        this.setH( h || this.getH() )
+        this.setZ( z || this.getZ() )
+    }
+
     private setup(){
         this.createEvent('Ticker')
     }
 
-    public getEvent( eventName: string ){
+    public getEvent = ( eventName: string ) => {
         return this.events[ eventName ]
     }
 
-    public getNode(){ return this.node }
+    public getNode = () => { return this.node }
 
-    public createEvent( eventName:string ){
+    public createEvent = ( eventName:string ) => {
 
         if( !this.events[ eventName ] ) this.events[ eventName ] = []
 
     }
 
-    public on( eventName: string, callback: Function ){
+    public on = ( eventName: string, callback: Function ) => {
         
         this.createEvent( eventName )
 
         this.events[ eventName ].push( callback )
     }
 
-    public trigger( eventName: string, data: unknown ){
+    public trigger = ( eventName: string, data: unknown ) => {
         const event = this.events[ eventName ]
 
         if( event ) event.forEach( fn => fn( data )  )
         
     }
 
-    public update( { canvas, ctx } : DrawingInterface ){
+    public update = ( { canvas, ctx } : DrawingInterface ) => {
 
         for( const func of this.getEvent('Ticker') ){
             

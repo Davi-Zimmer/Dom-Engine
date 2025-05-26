@@ -18,6 +18,22 @@ class Node {
 
     }
 
+    bindAttributes(){
+        const getAttr = this.attributes?.getPossibleAttribute.bind( this.attributes )
+
+        if( !getAttr || !this.propInstance ) return
+
+        const obj = {
+            x: getAttr('x'),
+            y: getAttr('y'),
+            w: getAttr('w'),
+            h: getAttr('h'),
+            z: getAttr('z')
+        }
+
+        this.propInstance.updatePosition( obj )
+    }
+
     getTag(){ return this.tag }
 
     getAttributes(){ return this.attributes }
