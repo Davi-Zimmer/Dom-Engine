@@ -6,16 +6,9 @@ class Bridge {
         
     constructor (){
 
-        this.data.EventManager = {
-            onPress : EventManager.onPress.bind( EventManager ),
-            onDown  : EventManager.onDown.bind( EventManager ),
-            onUp    : EventManager.onUp.bind( EventManager ),
+    
 
-            onMouseDown : EventManager.onMouseDown.bind( EventManager ),
-            onMouseUp   : EventManager.onMouseUp.bind( EventManager ),
-            onMouseMove : EventManager.onMouseMove.bind( EventManager ),
-            onMouseWheel: EventManager.onMouseWheel.bind( EventManager )
-        }
+        this.data.EventManager = EventManager.getAllEvents()
 
     }
 

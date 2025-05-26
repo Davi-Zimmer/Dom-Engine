@@ -25,7 +25,6 @@ class _EventManager {
         this.mouseWheelCallbacks = []
     }
 
-
     public addEvents( canvas: HTMLCanvasElement ){
         canvas.addEventListener('keydown'  , e => this.keyDown( e ) )
         canvas.addEventListener('keyup'    , e => this.keyUp( e ) )
@@ -36,7 +35,6 @@ class _EventManager {
         canvas.addEventListener('mousemove'  , e => this.mouseMove( e ))
         canvas.addEventListener('contextmenu', e => this.mouseContextMenu( e ))
     }
-
 
     //-------------------- Key Events -------------------- \\
     private keyMap: Record< string, KeyHandlersInterface> = {}
@@ -119,7 +117,7 @@ class _EventManager {
 
     }
 
-    public onDown( key: string, callback: KeyFunc ){
+    public onDown = ( key: string, callback: KeyFunc ) => {
         key = key.toLowerCase()
         
         this.ensureKey( key )
@@ -127,7 +125,7 @@ class _EventManager {
         this.keyMap[ key ].onDown.add( callback )
     }
 
-    public onUp( key: string, callback: KeyFunc ){
+    public onUp = ( key: string, callback: KeyFunc ) => {
         key = key.toLowerCase()
         
         this.ensureKey( key )
@@ -135,7 +133,7 @@ class _EventManager {
         this.keyMap[ key ].onUp.add( callback )
     }
 
-    public onPress( key: string, callback: KeyFunc ){
+    public onPress = ( key: string, callback: KeyFunc ) => {
         key = key.toLowerCase()
         
         this.ensureKey( key )
@@ -184,7 +182,7 @@ class _EventManager {
 
     }
 
-    public onMouseDown( button: number, callback: MouseFunc ) {
+    public onMouseDown = ( button: number, callback: MouseFunc ) => {
 
         if( !this.mouseDownCallbacks[ button ] ) this.mouseDownCallbacks[ button ] = []
 
@@ -192,7 +190,7 @@ class _EventManager {
 
     }
 
-    public onMouseUp( button: number, callback: MouseFunc) {
+    public onMouseUp = ( button: number, callback: MouseFunc) => {
 
         if( !this.mouseUpCallbacks[ button ] ) this.mouseUpCallbacks[ button ] = []
 
@@ -200,12 +198,17 @@ class _EventManager {
         
     }
 
-    public onMouseMove( callback: MouseFunc ) {
+    public onMouseMove = ( callback: MouseFunc ) => {
         this.mouseMoveCallbacks.push( callback )
     }
 
-    public onMouseWheel( callback: MouseFunc ){
+    public onMouseWheel = ( callback: MouseFunc ) => {
         this.mouseWheelCallbacks.push( callback )
+    }
+
+    public getAllEvents(){
+        const { onPress, onDown, onUp, onMouseDown, onMouseUp, onMouseMove, onMouseWheel } = this
+        return { onPress, onDown, onUp, onMouseDown, onMouseUp, onMouseMove, onMouseWheel }
     }
 
 }
