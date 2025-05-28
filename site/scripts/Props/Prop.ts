@@ -6,6 +6,7 @@ import Rect from "../Rect.js"
 import NodeManager from "../Managers/NodeManager.js"
 import Engine from "../Main/Engine.js"
 import RectInterface from "../Interfaces/RectInterface.js"
+import SourceInterface from "../Interfaces/SourceInterface.js"
 
 class Prop extends Rect {
     
@@ -17,6 +18,8 @@ class Prop extends Rect {
     public renderMask   : RectInterface = {}
 
     public getMiddle = Rect.getMiddle
+
+    private sources: SourceInterface[] = []
 
     constructor({ node, x=0, y=0, w=10, h=10 } : PropInterface ){
         const coords = { x, y, w, h }
@@ -47,6 +50,9 @@ class Prop extends Rect {
         return this.events[ eventName ]
     }
 
+    public getSources = () => this.sources
+    public addSource = ( data: SourceInterface ) => this.sources.push( data )
+    
     public getNode = () => { return this.node }
 
     public createEvent = ( eventName:string ) => {
