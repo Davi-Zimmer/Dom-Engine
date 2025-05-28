@@ -89,7 +89,7 @@ class _NodeManager {
             } 
 
             else if( closeTag ) {
-                
+
                 if( current.getTag() !== closeTag )
                     throw new Error(`Mismatched closing tag: expected </${current.getTag()}> but found </${closeTag}>`)
                 
@@ -104,7 +104,7 @@ class _NodeManager {
     }
     
     public async loadNodes() {
-        const input = await Get( 'Game/Explorer.html' )
+        const input = await Get( 'Explorer.html' )
 
         this.nodes = []
 

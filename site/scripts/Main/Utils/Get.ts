@@ -1,5 +1,7 @@
 function Get( url: string ){
-    return fetch(  location.href + url, {
+    const root =  location.href.replace('Game', '')
+
+    return fetch( root + url, {
         method: "GET",
         headers: { "Content-type": "application/json; charset=UTF-8" }
     }).then(response => response.text())

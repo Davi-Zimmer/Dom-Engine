@@ -1,27 +1,22 @@
-export default function( GameScript ){
+import Script from '../site/scripts/Main/Utils/GameScripts.js'
 
-    GameScript.SetScriptName('Player')
 
-    const { onPress } = GameScript.Import('EventManager')
+Script.Create( nodeId, 'Player', ( GameScript, node ) => {
 
-    const { node } = GameScript
+    const { onPress } = GameScript.getEnvets()
 
-    const playerInstance = node.getPropInstance()
+    const playerInstance = node.getPropInstance() 
 
-    function addEvents(){
-        const speed = node.attributes.getPossibleAttribute('speed') || 1
+    const speed = node.attributes.getPossibleAttribute('speed') || 1
 
-        onPress('w', () => playerInstance.moveY( -speed ))
-        onPress('s', () => playerInstance.moveY(  speed ))
-        onPress('a', () => playerInstance.moveX( -speed ))
-        onPress('d', () => playerInstance.moveX(  speed ))
-    }
-    
-    GameScript.Create(() => {
+    onPress('w', () => playerInstance.moveY( -speed ))
+    onPress('s', () => playerInstance.moveY(  speed ))
+    onPress('a', () => playerInstance.moveX( -speed ))
+    onPress('d', () => playerInstance.moveX(  speed ))
 
-        addEvents()
-    
-        playerInstance.on('Ticker', ({ ctx }) => {
+    playerInstance.on('Ticker', ({ ctx }) => {
+
+            console.log('Player Ticker')
 
             ctx.fillStyle = 'red'
 
@@ -29,8 +24,6 @@ export default function( GameScript ){
 
             ctx.fillRect( x, y, w, h )
 
-        })
-
     })
 
-}
+})

@@ -6,8 +6,6 @@ class Bridge {
         
     constructor (){
 
-    
-
         this.data.EventManager = EventManager.getAllEvents()
 
     }

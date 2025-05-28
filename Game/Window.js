@@ -1,24 +1,21 @@
-export default function( GameScript ){
+import Script from '../site/scripts/Main/Utils/GameScripts.js'
 
-    GameScript.Create('Window', () => {
+Script.Create( nodeId, 'Window', ( GameScript ) => {
 
-        const windowInstance = GameScript.node.getPropInstance()
+    const windowInstance = GameScript.node.getPropInstance()
 
-        const { on, setZ, setW, setH } = windowInstance
+    const { setZ, setW, setH } = windowInstance
 
-        setZ( -Infinity )
-        setW( innerWidth )
-        setH( innerHeight )
+    setW( innerWidth )
+    setH( innerHeight )
 
-        on('Ticker', ({ ctx }) => {
+    setZ( -Infinity )
 
-            const { x, y, w, h } = windowInstance.getRect()
-            
-            ctx.fillStyle = 'rgb( 0, 0, 0, 1 )'
-            ctx.fillRect( x, y, w, h )
+    const { x, y, w, h } = windowInstance.getRect()
 
-        })
-
+    windowInstance.on('Ticker', ({ ctx }) => {
+        ctx.fillStyle = 'rgb( 0, 0, 0 )'
+        ctx.fillRect( x, y, w, h )
     })
 
-}
+})
