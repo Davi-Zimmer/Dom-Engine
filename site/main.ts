@@ -16,10 +16,10 @@ const game = path.join( __dirname, '../Game')
 app.use( express.json() )
 
 app.use('/scripts', express.static( scirpts ))
-app.use('/Game', express.static( game ))
+app.use('/', express.static( game ))
 
 
-app.get( '/', ( _, res ) => res.sendFile( indexPage ) )
+app.get( '/Game', ( _, res ) => res.sendFile( indexPage ) )
 
 // app.get('/explorer', ( _ , res ) => res.sendFile(path.join( __dirname, './pages/Explorer.html' )))
 

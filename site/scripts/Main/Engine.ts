@@ -81,16 +81,19 @@ class _Engine {
     
     //---------------------------------------------------------------------\\
     
-    public reloadGame(){
+    public loadGame(){
 
         const nodes = NodeManager.getNodes()
+    
         executeNodesScripts( nodes )
 
     }
 
     private start(){
         
-       
+        setTimeout(() => {
+            this.loadGame()
+        }, 500);
         
     }
 
@@ -113,8 +116,8 @@ class _Engine {
         })
     }
 
-
 }
+
 
 NodeManager.loadNodes().then( tree => {
     console.log( tree )
@@ -122,15 +125,7 @@ NodeManager.loadNodes().then( tree => {
 
 Object.assign( window, { NodeManager } )
 
-
 const Engine = _Engine.getInstance()
 
-document.addEventListener('keydown' , e => {
 
-    if( e.ctrlKey && e.key.toLocaleLowerCase() === "q" ) {
-        
-        Engine.reloadGame()
-    }    
-   
-})
 export default Engine
