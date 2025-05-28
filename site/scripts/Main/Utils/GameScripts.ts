@@ -30,7 +30,7 @@ class Script {
         callback( gameScript, gameScript.node )
         
     }
-
+    
 }
 
 export default Script

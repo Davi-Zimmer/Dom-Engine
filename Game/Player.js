@@ -3,7 +3,7 @@ import Script from '../site/scripts/Main/Utils/GameScripts.js'
 
 Script.Create( nodeId, 'Player', ( GameScript, node ) => {
 
-    const { onPress } = GameScript.getEnvets()
+    const { onPress, onDown } = GameScript.getEnvets()
 
     const playerInstance = node.getPropInstance() 
 
@@ -14,15 +14,21 @@ Script.Create( nodeId, 'Player', ( GameScript, node ) => {
     onPress('a', () => playerInstance.moveX( -speed ))
     onPress('d', () => playerInstance.moveX(  speed ))
 
+    const sources = playerInstance.getSources()
+
+    const a = sources[0].source
+
+    onDown(' ', () => {
+        sources[1].source.play()
+    })
+        
     playerInstance.on('Ticker', ({ ctx }) => {
 
-            console.log('Player Ticker')
+        ctx.fillStyle = 'red'
 
-            ctx.fillStyle = 'red'
+        const { x, y, w, h } = playerInstance.getRect()
 
-            const { x, y, w, h } = playerInstance.getRect()
-
-            ctx.fillRect( x, y, w, h )
+        ctx.drawImage( a, x, y, w, h )
 
     })
 
