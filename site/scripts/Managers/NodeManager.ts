@@ -53,7 +53,7 @@ class _NodeManager {
         const tagRegex = /<!--([\s\S]*?)-->|<(\w+)([^>]*)\/?>|<\/(\w+)>/g
         let stack = []
 
-        let root = new Node({ tag: 'Root' })
+        let root = new Node({ tag: 'Root', parentNode: null! })
         
         let current = root
 
@@ -65,11 +65,11 @@ class _NodeManager {
 
             if ( commentContent !== undefined ) continue
             else if( openTag ) {
-
     
                 const node = new Node({
                     tag: openTag,
-                    attributes: this.parseAttributes( attrStr )
+                    attributes: this.parseAttributes( attrStr ),
+                    parentNode: current
                 })
 
                 if( !node.getAttributes()?.noProp ){ node.setPropInstance( new Prop({ node } ) ) }

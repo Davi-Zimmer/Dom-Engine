@@ -29,5 +29,5 @@ const host = 'localhost'
 const port = 5000
 
 app.listen( port, host, () => {
-    console.log(`http://localhost:${port}`)
+    console.log(`http://localhost:${port}/Game`)
 })

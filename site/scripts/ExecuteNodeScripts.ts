@@ -36,6 +36,7 @@ async function executeNodesScripts( Nodes: Node[] ){
         document.body.appendChild( script )
 
     }
+    
 }
 
 
