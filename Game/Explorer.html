@@ -4,19 +4,17 @@
 
     <Workspace noProp>
     
-        <Player script="Player.js" id="Player"/>
+        <Player script="Player.js" id="Player" w="100" h="100"/>
     
     </Workspace>
 
 
-
     <Sources noProp>
 
-        <PlayerSources noProp>
-            <Source src="scp-079.jpg" for="Player" name="Idle" />
-            <Source src="079_3.ogg" for="Player" name="Voice" />
+        <PlayerSources noProp for="Player">
+            <Source src="scp-079.jpg" name="Idle" />
+            <Source src="079_3.ogg" name="Voice" />
         </PlayerSources>
 
     </Sources>
 </Game>
-

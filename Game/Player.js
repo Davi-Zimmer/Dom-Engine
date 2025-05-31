@@ -3,11 +3,13 @@ import Script from '../site/scripts/Main/Utils/GameScripts.js'
 
 Script.Create( nodeId, 'Player', ( GameScript, node ) => {
 
-    const { onPress, onDown } = GameScript.getEnvets()
+    const { onPress, onDown } = GameScript.getEvents()
 
     const playerInstance = node.getPropInstance() 
 
-    const speed = node.attributes.getPossibleAttribute('speed') || 1
+    const speed = node.attributes.getPossibleAttribute('speed') || 5
+
+    node.bindAttributes()
 
     onPress('w', () => playerInstance.moveY( -speed ))
     onPress('s', () => playerInstance.moveY(  speed ))

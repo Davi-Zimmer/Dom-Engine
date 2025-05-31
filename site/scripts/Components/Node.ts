@@ -11,24 +11,32 @@ class Node {
     private attributes    ?: Attribute
     private children       : Node[]
     private propInstance   : Prop | null
+    private parentNode     : Node
 
-    constructor( { tag, attributes, children, propInstance } : NodeInterface ){
+    constructor( { tag, attributes, children, propInstance, parentNode } : NodeInterface ){
 
         this.tag          = tag
         this.attributes   = attributes
         this.children     = children || []
         this.propInstance = propInstance || null
+        this.parentNode   = parentNode 
 
         const src = this.attributes?.src
         
         if( src ) {
 
-            const forId = this.attributes?.for
+            let forId = this.attributes?.for
             const name = this.attributes?.getPossibleAttribute('name') as string
 
             const id = this.attributes?.id!
             if( !forId ) {
-                throw new Error(`Erro de atributo> id do Node ${id}, tag:${this.tag}: O id do node no atributo "for" não foi encontrado.\n `)
+                const parentFor = this.parentNode.attributes?.for
+
+                if( !parentFor ){
+                    throw new Error(`Erro de atributo> id do Node ${id}, tag:${this.tag}: O id do node no atributo "for" não foi encontrado.\n `)
+                }
+
+                forId = parentFor
             }
 
             if( !name ) {
@@ -46,7 +54,7 @@ class Node {
             }
         
             node.getPropInstance()?.addSource({ name, source })
-            
+        
         }
         
     }

@@ -6,7 +6,8 @@ interface NodeInterface {
     tag          :  string,
     attributes   ?: Attribute,
     children     ?: Node[],
-    propInstance ?: Prop
+    propInstance ?: Prop,
+    parentNode   : Node
 }
 
 export default NodeInterface

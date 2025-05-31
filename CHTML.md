@@ -1,5 +1,5 @@
 # Exemplos de uso e funcionamento do CHTML (Custom Hypertext Markup Language)
-O arquivo Explorer.html é um HTML customizado criado exclusivamente para este projeto. Para evitar confusões, chamamos esse HTML modificado de CHTML (Custom Hypertext Markup Language).
+O arquivo [Explorer.html](./Game/Explorer.html) é um HTML customizado criado exclusivamente para este projeto. Para evitar confusões, chamamos esse HTML modificado de CHTML (Custom Hypertext Markup Language).
 
 Ele é muito semelhante ao HTML convencional, mas possui algumas diferenças importantes.
 
@@ -44,15 +44,16 @@ Ou seja, dentro das tags só podem existir outras tags ou nada.
 Os parâmetros são dinâmicos. Assim como as tags, não há restrições — você pode criar quaisquer parâmetros.
 
 
-* `id`: único. Não deve haver dois elementos com o mesmo id. Por padrão, ele é gerado aleatoriamente.
-* `class`: pode ser repetida em várias tags, como no HTML convencional.
-* `for`: aponta para um id, indicando que a tag pertence ou se relaciona com aquele id.
-* `repeat`: seguido de um número, serve para repetir a tag X vezes.
-* `src`: usado tanto para scripts quanto para outros assets.
-* `script`: exclusivo para scripts.
-* `content`: sem definição (reservado para uso futuro).
-
-* `x`, `y`, `w`, `h` e `z`: definição de posição e tamanho.
+* `id`: Único. Não deve haver dois elementos com o mesmo id. Por padrão, ele é gerado aleatoriamente.
+* `class`: Pode ser repetida em várias tags, como no HTML convencional.
+* `for`: Aponta para um id, indicando que a tag pertence ou se relaciona com aquele id.
+* `repeat`: Seguido de um número, serve para repetir a tag X vezes.
+* `src`: Usado para carregar assets.
+* `script`: Exclusivo para scripts.
+* `content`: Sem definição (reservado para uso futuro).
+* `noProp` : Não cria um prop para o node (focado mais em organização).
+* `name` : Usado juntamente com `src` pra definir o nome do asset
+* `x`, `y`, `w`, `h` e `z`: Definição de posição e tamanho.
 
 
 ### Parâmetros booleanos
@@ -64,4 +65,25 @@ Se quiser que o parâmetro seja `false`, basta usar uma exclamação antes do no
     <Tag activated /> <!-- activated = true -->
 
     <Tag !activated /> <!-- activated = false -->
+```
+
+### Organização
+Passando o `for` para um node pai, todos seu filhos (filho diretos) "herdam" esse atríbuto.
+Ambos os códigos funcionam, mas o de cima é mais legível e recomendado.
+
+```html
+    <Player id="Player>
+
+    <PlayerSources noProp for="Player">
+        <Source src="scp-079.jpg" name="Idle" />
+        <Source src="079_3.ogg" name="Voice" />
+    </PlayerSources>
+```
+
+```html
+    <Player id="Player>
+
+    <Source src="scp-079.jpg" name="Idle" for="Player" />
+    <Source src="079_3.ogg" name="Voice" for="Player" />
+    
 ```

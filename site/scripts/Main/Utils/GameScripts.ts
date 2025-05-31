@@ -14,7 +14,7 @@ class Script {
         this.scriptName = scriptName
     }
 
-    public getEnvets = () =>  EventManager.getAllEvents()
+    public getEvents = () =>  EventManager.getAllEvents()
 
     // public node: Node
 
