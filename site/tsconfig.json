@@ -9,13 +9,14 @@
     "allowJs": true,
     "skipLibCheck": true,
     "lib": ["DOM", "ES6", "ES2021"],             // Bibliotecas utilizadas
-    "outDir": "./dist",                // Pasta de saída da compilação
-   
+    "rootDir": "./Game",              // Pasta de saída da compilação
+    "outDir": "../dist/Game"
   },
-"include": [
-    "site/**/*"
+  "include": [
+    "Game/**/*"
   ],
   "exclude": [
-    "site/Game/**/*"    // ✅ evitar que a raiz transpile o Game
+    "pages/**/*",
+    "scripts/**/*",
   ]
 }

@@ -27,9 +27,10 @@ class Script {
         
         const gameScript = new Script( id, scriptName )
 
-        callback( gameScript, gameScript.node )
+        return callback( gameScript, gameScript.node )
         
     }
+
     
 }
 

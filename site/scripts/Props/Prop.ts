@@ -8,11 +8,13 @@ import Engine from "../Main/Engine.js"
 import RectInterface from "../Interfaces/RectInterface.js"
 import SourceInterface from "../Interfaces/SourceInterface.js"
 
+type OnFunctions = (obj:DrawingInterface) => void 
+
 class Prop extends Rect {
     
     private node: Node
 
-    public events: Record< string, Function[]> = {}
+    public events: Record< string, OnFunctions[] > = {}
 
     public collisionMask: RectInterface = {}
     public renderMask   : RectInterface = {}
@@ -61,7 +63,7 @@ class Prop extends Rect {
 
     }
 
-    public on = ( eventName: string, callback: Function ) => {
+    public on = ( eventName: string, callback: OnFunctions ) => {
         
         this.createEvent( eventName )
 
@@ -71,7 +73,7 @@ class Prop extends Rect {
     public trigger = ( eventName: string, data: unknown ) => {
         const event = this.events[ eventName ]
 
-        if( event ) event.forEach( fn => fn( data )  )
+        if( event ) event.forEach( fn => fn( data as DrawingInterface )  )
         
     }
 

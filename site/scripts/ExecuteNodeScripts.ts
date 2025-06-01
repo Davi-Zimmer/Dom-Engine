@@ -1,16 +1,4 @@
 import Node from "./Components/Node.js"
-import Get from "./Main/Utils/Get.js"
-
-function adjustImportPath( code:string ) {
-    const convertedCode = code.replace(
-    /import\s+(.*?)\s+from\s+['"](\.\.\/)+site\/scripts\/(.*?)['"]/g,
-    (match, imports, dots, path) => {
-        return `import ${imports} from "/scripts/${path}"`;
-    }
-    );
-
-    return convertedCode
-}
 
 async function executeNodesScripts( Nodes: Node[] ){
 
@@ -20,21 +8,14 @@ async function executeNodesScripts( Nodes: Node[] ){
 
         if( !scriptPath ) continue
 
-        const code = await Get( scriptPath )
+        const a = window.location.href + 'Game/'
+        const module = await import ( a+scriptPath )
 
-        const adjusted = adjustImportPath( code )
-
-        const script = document.createElement('script')
-        script.setAttribute('type', 'module')
-
-        const nodeId = node.getAttributes()?.id
-
-        const t = `const nodeId = '${ nodeId }' \n`
-
-        script.innerHTML = (t + adjusted)
-
-        document.body.appendChild( script )
-
+        if ( typeof module.default === 'function' ) {
+            module.default( node )
+        } else if ( typeof module.Script === 'function' ) {
+            module.Script( node )
+        }
     }
     
 }

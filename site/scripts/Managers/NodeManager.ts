@@ -104,7 +104,7 @@ class _NodeManager {
     }
     
     public async loadNodes() {
-        const input = await Get( 'Explorer.html' )
+        const input = await Get( 'Game/Explorer.html' )
 
         this.nodes = []
 
