@@ -1,15 +1,15 @@
 import { EventManagerType } from "./EventManager"
 import { NodeType } from "./NodeType"
 
-export interface ScriptType {
+export interface GameScriptType {
     scriptName: string
-    constructor( nodeId: string, scriptName: string ) : ScriptType
+    constructor( nodeId: string, scriptName: string ) : GameScriptType
 
     getEvents: EventManagerType['getAllEvents']
 
     getNodeById( id: string ) : NodeType
 
     /// Static
-    static Create( id:string, scriptName:string, callback:( gameScript:ScriptType, node:NodeType ) => void ) : void
 
+    // Create ( callback:() => void ) : Record<'script', unknown> | void
 }

@@ -1,6 +1,7 @@
 import Attribute from "../Components/Attribute.js"
 import Node from "../Components/Node.js"
 import Get from "../Main/Utils/Get.js"
+import { explorerHTMLPath } from "../Main/Utils/Routes.js"
 import Prop from "../Props/Prop.js"
 
 class _NodeManager {
@@ -64,13 +65,25 @@ class _NodeManager {
             const [ full, commentContent, openTag, attrStr, closeTag ] = match
 
             if ( commentContent !== undefined ) continue
+
             else if( openTag ) {
-    
+                let attributes = this.parseAttributes( attrStr )
+
+                if( current == root ){
+                   
+                    document.title = attributes.getPossibleAttribute('title') as string || document.title
+                    
+                    delete attributes.title
+
+                }
+
                 const node = new Node({
                     tag: openTag,
-                    attributes: this.parseAttributes( attrStr ),
-                    parentNode: current
+                    parentNode: current,
+                    attributes
                 })
+
+                Node.Manager( node )
 
                 if( !node.getAttributes()?.noProp ){ node.setPropInstance( new Prop({ node } ) ) }
 
@@ -104,7 +117,7 @@ class _NodeManager {
     }
     
     public async loadNodes() {
-        const input = await Get( 'Game/Explorer.html' )
+        const input = await Get( explorerHTMLPath )
 
         this.nodes = []
 

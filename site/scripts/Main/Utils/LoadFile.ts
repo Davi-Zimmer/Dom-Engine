@@ -15,7 +15,7 @@ function loadFile( src: string ) : HTMLImageElement | HTMLAudioElement | undefin
 
     const extension = splitted[ splitted.length -1 ]
 
-    const path = window.location.href.replace('Game', '') + src
+    const path = window.location.href + src
 
     switch( extension ){
 

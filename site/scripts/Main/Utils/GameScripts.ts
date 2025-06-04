@@ -2,16 +2,16 @@ import Node from "../../Components/Node.js"
 import EventManager from "../../Managers/EventManager.js"
 import NodeManager from "../../Managers/NodeManager.js"
 
-class Script {
+class GameScript {
 
     public node: Node
-    public scriptName:string
+    public scriptPath:string
 
-    constructor( nodeId: string, scriptName: string  ){
+    constructor( node: Node, scriptPath:string ){
 
-        this.node = this.getNodeById( nodeId )!
+        this.node = node
 
-        this.scriptName = scriptName
+        this.scriptPath = scriptPath
     }
 
     public getEvents = () =>  EventManager.getAllEvents()
@@ -23,15 +23,15 @@ class Script {
         return nodes.find( n => n.getAttributes()?.id === id)
     }
 
-    public static Create = ( id:string, scriptName:string, callback:( gameScript:Script, node:Node ) => void )  => {
-        
-        const gameScript = new Script( id, scriptName )
-
-        return callback( gameScript, gameScript.node )
-        
-    }
+    /*
+        public Create = ( callback:() => void )  => {
+            
+            return callback()
+            
+        }
+    */
 
     
 }
 
-export default Script
+export default GameScript

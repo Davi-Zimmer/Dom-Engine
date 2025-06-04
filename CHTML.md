@@ -72,7 +72,7 @@ Passando o `for` para um node pai, todos seu filhos (filho diretos) "herdam" ess
 Ambos os códigos funcionam, mas o de cima é mais legível e recomendado.
 
 ```html
-    <Player id="Player>
+    <Player id="Player">
 
     <PlayerSources noProp for="Player">
         <Source src="scp-079.jpg" name="Idle" />
@@ -81,7 +81,7 @@ Ambos os códigos funcionam, mas o de cima é mais legível e recomendado.
 ```
 
 ```html
-    <Player id="Player>
+    <Player id="Player">
 
     <Source src="scp-079.jpg" name="Idle" for="Player" />
     <Source src="079_3.ogg" name="Voice" for="Player" />

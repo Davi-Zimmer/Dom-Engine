@@ -10,6 +10,7 @@ class Attribute {
     public script  ?: string
     public content ?: string
     public noProp  ?: boolean
+    public title  ?: boolean
 
     constructor( props : AttributeInterface ){
         
