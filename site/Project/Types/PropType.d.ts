@@ -33,4 +33,6 @@ export interface PropType extends RectType {
     trigger( eventName: string, data: unknown ) : void 
 
     update ( { canvas, ctx } : DrawingType ) : void
+
+    moveProp ( { x: number, y: number }, velocity: number=1, minDistance: number=5 ) 
 }

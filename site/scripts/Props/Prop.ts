@@ -19,8 +19,6 @@ class Prop extends Rect {
     public collisionMask: RectInterface = {}
     public renderMask   : RectInterface = {}
 
-    public getMiddle = Rect.getMiddle
-
     private sources: SourceInterface[] = []
 
     constructor({ node, x=0, y=0, w=10, h=10 } : PropInterface ){
@@ -75,6 +73,24 @@ class Prop extends Rect {
 
         if( event ) event.forEach( fn => fn( data as DrawingInterface )  )
         
+    }
+
+    public moveProp = ( target : {x:number,y:number}, velocity:number = 1, minDistance: 5 ) => {
+        const playerPos = this.getMiddle()
+
+        const dir = {
+            x: target.x - playerPos.x,
+            y: target.y - playerPos.y,
+        }
+
+        const distance = Math.sqrt( dir.x**2 + dir.y**2)
+
+        if( distance > minDistance ){
+
+            this.moveX( dir.x / distance * velocity )
+            this.moveY( dir.y / distance * velocity )
+        }
+
     }
 
     public update = ( { canvas, ctx } : DrawingInterface ) => {

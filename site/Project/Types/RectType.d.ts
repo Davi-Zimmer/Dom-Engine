@@ -17,8 +17,7 @@ export interface RectType {
     constructor( p : RectTypeInterface ): RectType
     getRect() : SimpleRect
 
-    /// Static
-    static GetMiddle( pos: SimpleRect) : {x:number, y:number}
+    getMiddle() : {x:number, y:number}
 
     setX ( x: number ) : void
     setY ( y: number ) : void
