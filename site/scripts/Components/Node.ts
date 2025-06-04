@@ -59,8 +59,13 @@ class Node {
         
     }
 
+    static Manager( node: Node ){
+        
+        const tag = node.tag.toLowerCase()
 
-    bindAttributes(){
+    }
+
+    bindAttributes = () => {
         const getAttr = this.attributes?.getPossibleAttribute.bind( this.attributes )
 
         if( !getAttr || !this.propInstance ) return
@@ -76,27 +81,27 @@ class Node {
         this.propInstance.updatePosition( obj )
     }
 
-    getTag(){ return this.tag }
+    getTag = () => this.tag 
 
-    getAttributes(){ return this.attributes }
+    getAttributes = () => { return this.attributes }
 
-    setAttributes( attr: Attribute ){ this.attributes = attr }
+    setAttributes = ( attr: Attribute ) => { this.attributes = attr }
 
-    getChildNodes(){ return this.children }
+    getChildNodes = () => { return this.children }
 
-    setPropInstance( propInstance: Prop ){ this.propInstance = propInstance }
+    setPropInstance = ( propInstance: Prop ) => { this.propInstance = propInstance }
 
-    getPropInstance(){ return this.propInstance }
+    getPropInstance = () => { return this.propInstance }
 
-    getAllChilds() { return this.children }
+    getAllChilds = () => { return this.children }
 
-    appendChild( node: Node ){ this.children.push( node ) }
+    appendChild = ( node: Node ) => { this.children.push( node ) }
 
-    removeChild( node: Node ){ this.children = this.children.filter( n => n !== node ) }
+    removeChild = ( node: Node ) => { this.children = this.children.filter( n => n !== node ) }
 
-    getChild( node: Node ){ return this.children.find( n => n === node) }
+    getChild = ( node: Node ) => { return this.children.find( n => n === node) }
 
-    overrideChilds( nodes: Node[] ) { this.children = nodes }
+    overrideChilds = ( nodes: Node[] ) => { this.children = nodes }
 
 }
 

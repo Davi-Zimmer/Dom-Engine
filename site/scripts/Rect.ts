@@ -10,7 +10,7 @@ class Rect {
 
     }
 
-    public getRect(){ return this.position }
+    public getRect = () => this.position
 
     public static getMiddle( pos: {x:number, y: number, w:number, h:number }) {
         const { x, y, w, h } = pos

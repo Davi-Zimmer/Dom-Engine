@@ -9,11 +9,11 @@
     "allowJs": true,
     "skipLibCheck": true,
     "lib": ["DOM", "ES6", "ES2021"],             // Bibliotecas utilizadas
-    "rootDir": "./Game",              // Pasta de saída da compilação
-    "outDir": "../dist/Game"
+    "rootDir": "Project",              // Pasta de saída da compilação
+    "outDir": "../dist/Project"
   },
   "include": [
-    "Game/**/*"
+    "Project/**/*"
   ],
   "exclude": [
     "pages/**/*",

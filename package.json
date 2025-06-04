@@ -4,9 +4,9 @@
   "main": "index.js",
   "scripts": {
     "buildEngine": "tsc -p ./tsconfig.json",
-    "copy:assets": "cpx \"site/Game/**/!(*.ts|*.tsx)\" dist/Game",
+    "copy:assets": "cpx \"site/Project/**/!(*.ts|*.tsx)\" dist/Project",
     "copy:pages": "cpx site/pages/* dist/pages",
-    "start": "npm run buildEngine && npm run copy:pages && node ./dist/main.js",
+    "start": "npm run buildEngine && npm run copy:pages && npm run copy:assets && node ./dist/main.js",
     "buildGame": "tsc -p ./site/tsconfig.json && npm run copy:assets"
   },
   "keywords": [],

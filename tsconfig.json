@@ -16,6 +16,6 @@
     "site/**/*"
   ],
   "exclude": [
-    "site/Game/**/*"    // ✅ evitar que a raiz transpile o Game
+    "site/Project/**/*"    // ✅ evitar que a raiz transpile o Game
   ]
 }
