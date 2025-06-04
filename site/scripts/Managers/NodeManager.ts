@@ -16,8 +16,6 @@ class _NodeManager {
         if( !this.Instance ) this.Instance = new _NodeManager()
         return this.Instance
     }
-
-    public getNodes(){ return this.nodes }
         
     private parseAttributes( attrStr: string ){
         
@@ -116,7 +114,7 @@ class _NodeManager {
 
     }
     
-    public async loadNodes() {
+    public loadNodes = async () => {
         const input = await Get( explorerHTMLPath )
 
         this.nodes = []
@@ -126,25 +124,27 @@ class _NodeManager {
         return tree
     }
 
-    public getAllNodesByAttribute( attr: string, value: number|string ){
+    public getAllNodesByAttribute = ( attr: string, value: number|string ) => {
         return this.nodes.filter( n => n.getAttributes()?.[attr as keyof Attribute] === value )
     }
 
-    public getNodeByAttribute( attr: string, value: number|string ){
+    public getNodeByAttribute = ( attr: string, value: number|string ) => {
         return this.nodes.find( n => n.getAttributes()?.[attr as keyof Attribute] === value )
     }
 
-    public getNodeById( id: string ){
+    public getNodeById = ( id: string ) => {
         return this.getNodeByAttribute('id', id )
     }
 
-    public getNodeByTag ( tag: string ){
+    public getNodeByTag = ( tag: string ) => {
         return this.nodes.filter( n => n.getTag() === tag ) 
     }
 
-    public getAllNodesByclass( className: string ){
+    public getAllNodesByclass = ( className: string ) => {
         return this.getNodeByAttribute( 'class', className )
     }
+
+    public getNodes = () => this.nodes
 
 }
 
