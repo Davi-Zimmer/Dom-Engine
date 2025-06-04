@@ -7,6 +7,8 @@ class GameScript {
     public node: Node
     public scriptPath:string
 
+    public nodeManager = NodeManager
+
     constructor( node: Node, scriptPath:string ){
 
         this.node = node

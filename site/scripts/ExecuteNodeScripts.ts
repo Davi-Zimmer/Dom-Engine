@@ -16,7 +16,7 @@ async function executeNodesScripts( Nodes: Node[] ){
 
         const script = new GameScript( node, scriptPath )
 
-        const data = { script, node, prop: node.getPropInstance() }
+        const data = { GameScript:script, node, prop: node.getPropInstance() }
 
         if ( typeof module.default === 'function' ) {
             module.default( data )

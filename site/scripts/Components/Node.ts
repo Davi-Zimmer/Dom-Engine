@@ -61,7 +61,7 @@ class Node {
 
     static Manager( node: Node ){
         
-        const tag = node.tag.toLowerCase()
+        // const tag = node.tag.toLowerCase()
 
     }
 
@@ -83,23 +83,23 @@ class Node {
 
     getTag = () => this.tag 
 
-    getAttributes = () => { return this.attributes }
+    getAttributes = () => this.attributes
 
     setAttributes = ( attr: Attribute ) => { this.attributes = attr }
 
-    getChildNodes = () => { return this.children }
+    getChildNodes = () => this.children
 
     setPropInstance = ( propInstance: Prop ) => { this.propInstance = propInstance }
 
-    getPropInstance = () => { return this.propInstance }
+    getPropInstance = () => this.propInstance
 
-    getAllChilds = () => { return this.children }
+    getAllChilds = () => this.children
 
     appendChild = ( node: Node ) => { this.children.push( node ) }
 
     removeChild = ( node: Node ) => { this.children = this.children.filter( n => n !== node ) }
 
-    getChild = ( node: Node ) => { return this.children.find( n => n === node) }
+    getChild = ( node: Node ) => this.children.find( n => n === node)
 
     overrideChilds = ( nodes: Node[] ) => { this.children = nodes }
 

@@ -1,8 +1,13 @@
 import { ScriptArgs } from "../Types/ScriptArgs"
 
-export default function ( { prop } : ScriptArgs ){
+export default function ( { prop, GameScript } : ScriptArgs ){
     
     const { setW, setH, setZ, on, getRect } = prop
+
+
+    // const n = GameScript.nodeManager.getNodeById('Player')
+    // console.log( n )
+
 
     setW( innerWidth )
     setH( innerHeight )
