@@ -12,8 +12,8 @@ class Rect {
 
     public getRect = () => this.position
 
-    public static getMiddle( pos: {x:number, y: number, w:number, h:number }) {
-        const { x, y, w, h } = pos
+    public getMiddle() {
+        const { x, y, w, h } = this.getRect()
         
         return {
             x: x + w / 2,
