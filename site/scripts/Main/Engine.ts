@@ -1,9 +1,31 @@
 import DrawingInterface from "../Interfaces/DrawingInterface.js"
-import NodeManager from "../Managers/NodeManager.js"
+import Interpreter from "../Managers/Interpreter.js"
 import EventManager from "../Managers/EventManager.js"
 import executeNodesScripts from "../ExecuteNodeScripts.js"
 import Rect from "../Rect.js"
 import Post from "./Utils/Post.js"
+import NodeManager from "../Managers/NodeManager.js"
+
+document.addEventListener('keydown', e => {
+
+    if( e.ctrlKey && e.key.toLocaleLowerCase() === 'r'){
+        e.preventDefault()
+        
+        if( !sended ){
+            console.warn('Transpilando o jogo.')
+
+            Post('Transpile').then( res => {
+                if( res == 'OK') window.location.reload()
+    
+                else console.error('Não foi possível transpilar o jogo.')
+            })
+
+        }
+
+        sended = true
+
+    }
+})
 
 class _Engine {
     
@@ -120,32 +142,13 @@ class _Engine {
 }
 
 let sended = false
-document.addEventListener('keydown', e => {
 
-    if( e.ctrlKey && e.key.toLocaleLowerCase() === 'r'){
-        e.preventDefault()
-        
-        if( !sended ){
-            console.warn('Transpilando o jogo.')
 
-            Post('Transpile').then( res => {
-                if( res == 'OK') window.location.reload()
-    
-                else console.error('Não foi possível transpilar o jogo.')
-            })
-
-        }
-
-        sended = true
-
-    }
-})
-
-NodeManager.loadNodes().then( tree => {
+Interpreter.convertHTML().then( tree => {
     console.log( tree )
 })
 
-Object.assign( window, { NodeManager } )
+Object.assign( window, { NodeManager: Interpreter } )
 
 const Engine = _Engine.getInstance()
 

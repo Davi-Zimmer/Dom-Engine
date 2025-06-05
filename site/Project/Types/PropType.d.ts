@@ -1,4 +1,5 @@
 import { DrawingType } from "./DrawindType"
+import GameSourcesType from "./GameSources"
 import { NodeType } from "./NodeType"
 import { OnFunctions } from "./OnFunctions"
 import { RectType, RectTypeInterface } from "./RectType"
@@ -20,7 +21,7 @@ export interface PropType extends RectType {
 
     getEvent( eventName: string ) : Record< string, OnFunctions >
 
-    getSources () : SourceType
+    getSources () : GameSourcesType
 
     addSource( data: SourceType ) : void
     
@@ -34,5 +35,6 @@ export interface PropType extends RectType {
 
     update ( { canvas, ctx } : DrawingType ) : void
 
-    moveProp ( { x: number, y: number }, velocity: number=1, minDistance: number=5 ) 
+    moveProp ( target: { x: number, y: number }, velocity: number, minDistance: number ) : void
+
 }

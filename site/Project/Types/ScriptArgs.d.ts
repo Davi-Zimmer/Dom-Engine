@@ -6,4 +6,6 @@ interface ScriptArgs {
     GameScript: GameScriptType
     node: NodeType
     prop: PropType
+
+    
 }

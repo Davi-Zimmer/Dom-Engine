@@ -1,8 +1,7 @@
 import { NodeType } from "./NodeType"
+import { PropType } from "./PropType"
 
 export interface NodeManagerType {
-
-    private constructor() : NodeManagerType
     
     loadNodes () : NodeType[]
 
@@ -17,4 +16,6 @@ export interface NodeManagerType {
     getAllNodesByclass ( className: string ) : NodeType[]
 
     getNodes () : NodeType
+
+    getPropByNodeId( id: string ): PropType | undefined
 }
