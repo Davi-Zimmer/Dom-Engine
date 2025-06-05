@@ -7,6 +7,7 @@ import NodeManager from "../Managers/NodeManager.js"
 import Engine from "../Main/Engine.js"
 import RectInterface from "../Interfaces/RectInterface.js"
 import SourceInterface from "../Interfaces/SourceInterface.js"
+import GameSources from "../Main/Utils/GameSources.js"
 
 type OnFunctions = (obj:DrawingInterface) => void 
 
@@ -50,7 +51,7 @@ class Prop extends Rect {
         return this.events[ eventName ]
     }
 
-    public getSources = () => this.sources
+    public getSources = () => new GameSources( this.sources )
     public addSource = ( data: SourceInterface ) => this.sources.push( data )
     
     public getNode = () => { return this.node }

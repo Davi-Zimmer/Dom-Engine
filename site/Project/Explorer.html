@@ -1,10 +1,24 @@
 <Game noProp title="Game Test">
 
-
     <Window script="./Game/Window.js" />
-
-    <Camera id="Camera" script="./Game/Camera.js"/>
     
-    <Player id="Player" script="./Game/Player.js" />
+    <GameSouces id="GameSources" for="GameSources">
+        
+        <Souces src="Assets/spriteSheet.png" />
+
+    </GameSouces>
+
+    <Scene>
+        <Camera id="Camera" script="./Game/Camera.js"/>
+        
+        <Player id="Player" script="./Game/Player.js" />
+    </Scene>
+
+
+    <Scene>
+        <!-- 500 objetos -->
+    </Scene>
+
+
 
 </Game>

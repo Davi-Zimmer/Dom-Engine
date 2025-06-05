@@ -1,4 +1,5 @@
 import NodeInterface from "../Interfaces/NodeInterface.js"
+import extractNamefromFilePath from "../Main/Utils/ExtractNamefromFilePath.js"
 import Get from "../Main/Utils/Get.js"
 import loadFile from "../Main/Utils/LoadFile.js"
 import NodeManager from "../Managers/NodeManager.js"
@@ -26,9 +27,9 @@ class Node {
         if( src ) {
 
             let forId = this.attributes?.for
-            const name = this.attributes?.getPossibleAttribute('name') as string
-
+            
             const id = this.attributes?.id!
+
             if( !forId ) {
                 const parentFor = this.parentNode.attributes?.for
 
@@ -39,11 +40,10 @@ class Node {
                 forId = parentFor
             }
 
-            if( !name ) {
-                throw new Error(`É necessário informar o nome com o atributo "nome" no Node "${id}"`)
-            }
+            const node = NodeManager.getNodeById( forId )
+
+            if( !node ) throw new Error(`Não existe nenhum node com o id:${id}`)
             
-            const node = NodeManager.getNodeById( forId )!
 
             if( !node.propInstance ) throw new Error(`Não é possível incorporar os dados de ${src} em um node sem prop (${node.tag}) `)
 
@@ -52,9 +52,14 @@ class Node {
             if( !source ){
                 throw new Error(`Fonte de arquivo não encontrada: ${src}`)
             }
-        
+
+            const name = (
+                this.attributes?.getPossibleAttribute('name') as string ??
+                extractNamefromFilePath( src )
+            )
+
             node.getPropInstance()?.addSource({ name, source })
-        
+
         }
         
     }

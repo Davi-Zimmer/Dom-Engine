@@ -3,8 +3,6 @@ import { MouseFuncType } from "./MouseFuncType"
 
 export interface EventManagerType {
 
-    /// Static
-    static getInstance(): EventManagerType 
 
     reset() : void
 

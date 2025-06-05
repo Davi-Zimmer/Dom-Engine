@@ -146,6 +146,9 @@ class _NodeManager {
 
     public getNodes = () => this.nodes
 
+    public getPropByNodeId = ( id: string ) => {
+        return this.getNodeById( id )?.getPropInstance()
+    }
 }
 
 const NodeManager = _NodeManager.getInstance()

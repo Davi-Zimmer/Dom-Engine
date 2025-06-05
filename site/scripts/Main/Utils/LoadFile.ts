@@ -1,3 +1,5 @@
+import { projectRoute } from "./Routes.js"
+
 function loadImage( src: string ){
     const image = new Image()
     image.src = src 
@@ -15,7 +17,7 @@ function loadFile( src: string ) : HTMLImageElement | HTMLAudioElement | undefin
 
     const extension = splitted[ splitted.length -1 ]
 
-    const path = window.location.href + src
+    const path = `${window.location.href}${projectRoute}/${src}`
 
     switch( extension ){
 

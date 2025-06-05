@@ -1,6 +1,7 @@
 import Node from "../../Components/Node.js"
 import EventManager from "../../Managers/EventManager.js"
 import NodeManager from "../../Managers/NodeManager.js"
+import SpriteAnimator from "./SpriteAnimator.js"
 
 class GameScript {
 
@@ -24,6 +25,8 @@ class GameScript {
         const nodes = NodeManager.getNodes()
         return nodes.find( n => n.getAttributes()?.id === id)
     }
+
+    public SpriteAnimator = SpriteAnimator
 
     /*
         public Create = ( callback:() => void )  => {

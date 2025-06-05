@@ -5,6 +5,27 @@ import executeNodesScripts from "../ExecuteNodeScripts.js"
 import Rect from "../Rect.js"
 import Post from "./Utils/Post.js"
 
+document.addEventListener('keydown', e => {
+
+    if( e.ctrlKey && e.key.toLocaleLowerCase() === 'r'){
+        e.preventDefault()
+        
+        if( !sended ){
+            console.warn('Transpilando o jogo.')
+
+            Post('Transpile').then( res => {
+                if( res == 'OK') window.location.reload()
+    
+                else console.error('Não foi possível transpilar o jogo.')
+            })
+
+        }
+
+        sended = true
+
+    }
+})
+
 class _Engine {
     
     private static Instance: _Engine
@@ -120,26 +141,7 @@ class _Engine {
 }
 
 let sended = false
-document.addEventListener('keydown', e => {
 
-    if( e.ctrlKey && e.key.toLocaleLowerCase() === 'r'){
-        e.preventDefault()
-        
-        if( !sended ){
-            console.warn('Transpilando o jogo.')
-
-            Post('Transpile').then( res => {
-                if( res == 'OK') window.location.reload()
-    
-                else console.error('Não foi possível transpilar o jogo.')
-            })
-
-        }
-
-        sended = true
-
-    }
-})
 
 NodeManager.loadNodes().then( tree => {
     console.log( tree )
