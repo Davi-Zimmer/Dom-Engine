@@ -1,9 +1,10 @@
 import DrawingInterface from "../Interfaces/DrawingInterface.js"
-import NodeManager from "../Managers/NodeManager.js"
+import Interpreter from "../Managers/Interpreter.js"
 import EventManager from "../Managers/EventManager.js"
 import executeNodesScripts from "../ExecuteNodeScripts.js"
 import Rect from "../Rect.js"
 import Post from "./Utils/Post.js"
+import NodeManager from "../Managers/NodeManager.js"
 
 document.addEventListener('keydown', e => {
 
@@ -143,11 +144,11 @@ class _Engine {
 let sended = false
 
 
-NodeManager.loadNodes().then( tree => {
+Interpreter.convertHTML().then( tree => {
     console.log( tree )
 })
 
-Object.assign( window, { NodeManager } )
+Object.assign( window, { NodeManager: Interpreter } )
 
 const Engine = _Engine.getInstance()
 

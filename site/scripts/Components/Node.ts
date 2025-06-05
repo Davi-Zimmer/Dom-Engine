@@ -22,6 +22,10 @@ class Node {
         this.propInstance = propInstance || null
         this.parentNode   = parentNode 
 
+
+        if( !attributes?.noProp ) this.propInstance = new Prop({ node:this})
+        
+
         const src = this.attributes?.src
         
         if( src ) {
@@ -88,6 +92,8 @@ class Node {
 
     getTag = () => this.tag 
 
+    setChildren = ( childs: Node[] ) => this.children = childs
+    
     getAttributes = () => this.attributes
 
     setAttributes = ( attr: Attribute ) => { this.attributes = attr }
