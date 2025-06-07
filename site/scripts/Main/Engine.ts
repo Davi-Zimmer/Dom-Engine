@@ -144,7 +144,7 @@ class _Engine {
 let sended = false
 
 
-Interpreter.convertHTML().then( tree => {
+Interpreter.ConvertHTML().then( tree => {
     console.log( tree )
 })
 

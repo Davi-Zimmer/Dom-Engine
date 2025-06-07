@@ -1,5 +1,5 @@
 interface AttributeInterface {
-    id      ?: string
+    id       ?: string
     for     ?: string
     repeat  ?: number
     src     ?: string

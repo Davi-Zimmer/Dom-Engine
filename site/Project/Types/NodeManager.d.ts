@@ -18,4 +18,6 @@ export interface NodeManagerType {
     getNodes () : NodeType
 
     getPropByNodeId( id: string ): PropType | undefined
+
+    getParentNode(): NodeType
 }
