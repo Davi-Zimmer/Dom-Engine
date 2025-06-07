@@ -52,8 +52,12 @@ Os parâmetros são dinâmicos. Assim como as tags, não há restrições — vo
 * `script`: Exclusivo para scripts.
 * `content`: Sem definição (reservado para uso futuro).
 * `noProp` : Não cria um prop para o node (focado mais em organização).
-* `name` : Usado juntamente com `src` pra definir o nome do asset
+* `name` : Usado juntamente com `src` pra definir o nome do asset (se não indicar o nome, o nome vai ser o mesmo do arquivo sem a extensão.)
 * `x`, `y`, `w`, `h` e `z`: Definição de posição e tamanho.
+
+* `title`: Define o titulo da pagina (Apenas nos nodes pai)
+* `scene`: Define uma tag para ser usada como separador de cenas. (Evita que tudo do jogo seja processado ao mesmo tempo. Apenas nos nodes pai)
+* `initialsScene`: Define a cena inicial. (Apenas nos nodes pai)
 
 
 ### Parâmetros booleanos
@@ -87,3 +91,14 @@ Ambos os códigos funcionam, mas o de cima é mais legível e recomendado.
     <Source src="079_3.ogg" name="Voice" for="Player" />
     
 ```
+
+
+
+
+
+
+
+tags menionadas em código:
+* `Root`: É o primeiro node(oculto) que encapsula os do projeto. O unico Node que não tem Node pai nem atributos.
+
+``

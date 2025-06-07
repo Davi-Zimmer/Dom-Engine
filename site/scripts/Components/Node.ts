@@ -114,6 +114,8 @@ class Node {
 
     overrideChilds = ( nodes: Node[] ) => { this.children = nodes }
 
+    getParentNode = () => this.parentNode
+
 }
 
 export default Node
