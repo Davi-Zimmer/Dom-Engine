@@ -3,6 +3,7 @@ import express from 'express'
 import { fileURLToPath } from 'url'
 import { exec } from 'child_process'
 import { projectRoute } from './scripts/Main/Utils/Routes.js'
+import Interpreter from './scripts/Managers/Interpreter.js'
 
 const __filePath = fileURLToPath( import.meta.url )
 const __dirname = path.dirname( __filePath )

@@ -15,7 +15,7 @@ export interface AttributeType extends AttributeTypeInterface{
 
     bind( attributeName: keyof AttributeType, value: string | number | boolean  ) : void
 
-    getPossibleAttribute( attr: string ) : string | number | boolean
-
     removeAttribute( attributeName: string ): void
+
+    addAttirute( attrName: string, value: any ): void
 }

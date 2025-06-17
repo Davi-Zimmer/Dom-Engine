@@ -74,8 +74,8 @@ class Interpreter {
 
     }
 
-    public static LoadJson = async () => {
-        const input = await Get( explorerHTMLPath )
+    public static LoadJson = async ( path: string ) => {
+        const input = await Get( path )
 
         const tree = this.ParseTagToObject( input )
 
@@ -90,16 +90,40 @@ class Interpreter {
         const attributes = node.getAttributes()
 
         if( parentNode?.getTag().toLowerCase() === 'root' ){
-            document.title = document.title = attributes?.getPossibleAttribute('title') as string || document.title
+            document.title = document.title = node.getPossibleAttribute('title') as string || document.title
         }
 
-        if( node.getTag().toLowerCase() === 'scene') NodeManager.registerSceneID( attributes?.id! )
+        const nodeTag = node.getTag().toLowerCase() 
+
+        if( nodeTag === 'scene' ) NodeManager.registerSceneID( attributes?.id! )
+
     }
     
-    public static ParseJsonToNodes( current: SimpleObject, parentNode:Node ) {
+    public static async ParseJsonToNodes( current: SimpleObject, parentNode:Node ) {
 
-        const  { tag, attributes , children } = current
+        let  { tag, attributes , children } = current
         const attrs = new Attribute( attributes )
+
+        console.log( children )
+
+        if( attrs.href !== undefined ){
+
+            let path = attrs.href
+
+            if( attrs.href[0] === '.' ){
+                const splitedPath = attrs.href.split('')
+                splitedPath.shift()
+                path = splitedPath.join('')
+            }
+            const serverPath = 'Project' + path 
+
+            attrs.href = serverPath
+
+            const html = await this.LoadJson( serverPath )
+            
+            children = html.children
+
+        }
 
         const node = new Node({
             tag,
@@ -109,9 +133,11 @@ class Interpreter {
 
         this.NodeTreatment( node )
     
-        node.setChildren( 
-            children.map( child => this.ParseJsonToNodes( child, node ))
-        )
+        const childresNodes:Node[] = []
+
+        for(const child of children) childresNodes.push( await this.ParseJsonToNodes( child, node ) )
+    
+        node.setChildren( childresNodes )
 
         return node
 
@@ -119,9 +145,11 @@ class Interpreter {
 
     public static ConvertHTML = async () => {
 
-        const obj = await this.LoadJson()
+        const obj = await this.LoadJson( explorerHTMLPath )
 
         const tree = this.ParseJsonToNodes( obj, null! )
+
+        this.a( obj )
 
         return tree
     }
@@ -146,6 +174,37 @@ class Interpreter {
 
     public static Export( tree: Node ){
 
+    }
+
+    public static ExtractScenesNode( node: SimpleObject ): SimpleObject | undefined {
+        const isScenes = ( { tag }: SimpleObject ) => tag.toLowerCase() === 'scenes'
+
+        for( const child of node.children ) { 
+
+            if( isScenes( child ) ) {
+                return child
+            }
+
+        }
+
+        return undefined
+    }
+
+    private static a( obj: SimpleObject ){
+
+        const nodeContainer = obj.children[0]
+
+        const scenes = this.ExtractScenesNode( nodeContainer )
+        
+        if( !scenes ) return // fazer outro tratamento se não existir nenhuma cena
+
+    }
+
+    private static CreateJsonFiles( rootNode: SimpleObject ){
+        const scenesIds = NodeManager.getScenesIDs()
+
+        const nodes = NodeManager.getNodes()
+       
     }
 }
 

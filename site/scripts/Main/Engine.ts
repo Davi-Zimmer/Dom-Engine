@@ -148,7 +148,7 @@ Interpreter.ConvertHTML().then( tree => {
     console.log( tree )
 })
 
-Object.assign( window, { NodeManager: Interpreter } )
+Object.assign( window, { Interpreter: Interpreter, NodeManager } )
 
 const Engine = _Engine.getInstance()
 

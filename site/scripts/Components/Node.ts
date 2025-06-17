@@ -23,7 +23,13 @@ class Node {
         this.parentNode   = parentNode 
 
 
-        if( !attributes?.noProp ) this.propInstance = new Prop({ node:this})
+        if( !attributes?.noProp && !this.getPossibleAttribute('href') ) {
+
+            this.attributes?.addAttirute('noProp', true ) 
+
+            this.propInstance = new Prop({ node:this })
+            
+        }
         
 
         const src = this.attributes?.src
@@ -58,7 +64,7 @@ class Node {
             }
 
             const name = (
-                this.attributes?.getPossibleAttribute('name') as string ??
+                this.getPossibleAttribute('name') as string ??
                 extractNamefromFilePath( src )
             )
 
@@ -75,7 +81,7 @@ class Node {
     }
 
     bindAttributes = () => {
-        const getAttr = this.attributes?.getPossibleAttribute.bind( this.attributes )
+        const getAttr = this.getPossibleAttribute.bind( this.attributes )
 
         if( !getAttr || !this.propInstance ) return
 
@@ -116,6 +122,9 @@ class Node {
 
     getParentNode = () => this.parentNode
 
+    getPossibleAttribute( attr: string ){
+        return this.attributes?.[ attr as keyof Attribute ] as number | string | undefined
+    }
 }
 
 export default Node
