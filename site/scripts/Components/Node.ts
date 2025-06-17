@@ -1,4 +1,8 @@
 import NodeInterface from "../Interfaces/NodeInterface.js"
+import extractNamefromFilePath from "../Main/Utils/ExtractNamefromFilePath.js"
+import Get from "../Main/Utils/Get.js"
+import loadFile from "../Main/Utils/LoadFile.js"
+import NodeManager from "../Managers/NodeManager.js"
 import Prop from "../Props/Prop.js"
 import Attribute from "./Attribute.js"
 
@@ -6,40 +10,121 @@ class Node {
 
     private tag            : string
     private attributes    ?: Attribute
-    private children      : Node[]
-    private propInstance  : Prop | null
+    private children       : Node[]
+    private propInstance   : Prop | null
+    private parentNode     : Node
 
-    constructor( { tag, attributes, children, propInstance } : NodeInterface ){
+    constructor( { tag, attributes, children, propInstance, parentNode } : NodeInterface ){
 
         this.tag          = tag
         this.attributes   = attributes
         this.children     = children || []
         this.propInstance = propInstance || null
+        this.parentNode   = parentNode 
+
+
+        if( !attributes?.noProp && !this.getPossibleAttribute('href') ) {
+
+            this.attributes?.addAttirute('noProp', true ) 
+
+            this.propInstance = new Prop({ node:this })
+            
+        }
+        
+
+        const src = this.attributes?.src
+        
+        if( src ) {
+
+            let forId = this.attributes?.for
+            
+            const id = this.attributes?.id!
+
+            if( !forId ) {
+                const parentFor = this.parentNode.attributes?.for
+
+                if( !parentFor ){
+                    throw new Error(`Erro de atributo> id do Node ${id}, tag:${this.tag}: O id do node no atributo "for" não foi encontrado.\n `)
+                }
+
+                forId = parentFor
+            }
+
+            const node = NodeManager.getNodeById( forId )
+
+            if( !node ) throw new Error(`Não existe nenhum node com o id:${id}`)
+            
+
+            if( !node.propInstance ) throw new Error(`Não é possível incorporar os dados de ${src} em um node sem prop (${node.tag}) `)
+
+            const source = loadFile( src )
+
+            if( !source ){
+                throw new Error(`Fonte de arquivo não encontrada: ${src}`)
+            }
+
+            const name = (
+                this.getPossibleAttribute('name') as string ??
+                extractNamefromFilePath( src )
+            )
+
+            node.getPropInstance()?.addSource({ name, source })
+
+        }
+        
+    }
+
+    static Manager( node: Node ){
+        
+        // const tag = node.tag.toLowerCase()
 
     }
 
-    getTag(){ return this.tag }
+    bindAttributes = () => {
+        const getAttr = this.getPossibleAttribute.bind( this.attributes )
 
-    getAttributes(){ return this.attributes }
+        if( !getAttr || !this.propInstance ) return
 
-    setAttributes( attr: Attribute ){ this.attributes = attr }
+        const obj = {
+            x: getAttr('x') as number,
+            y: getAttr('y') as number,
+            w: getAttr('w') as number,
+            h: getAttr('h') as number,
+            z: getAttr('z') as number
+        }
 
-    getChildNodes(){ return this.children }
+        this.propInstance.updatePosition( obj )
+    }
 
-    setPropInstance( propInstance: Prop ){ this.propInstance = propInstance }
+    getTag = () => this.tag 
 
-    getPropInstance(){ return this.propInstance }
+    setChildren = ( childs: Node[] ) => this.children = childs
+    
+    getAttributes = () => this.attributes
 
-    getAllChilds() { return this.children }
+    setAttributes = ( attr: Attribute ) => { this.attributes = attr }
 
-    appendChild( node: Node ){ this.children.push( node ) }
+    getChildNodes = () => this.children
 
-    removeChild( node: Node ){ this.children = this.children.filter( n => n !== node ) }
+    setPropInstance = ( propInstance: Prop ) => { this.propInstance = propInstance }
 
-    getChild( node: Node ){ return this.children.find( n => n === node) }
+    getPropInstance = () => this.propInstance
 
-    overrideChilds( nodes: Node[] ) { this.children = nodes }
+    getAllChilds = () => this.children
 
+    appendChild = ( node: Node ) => { this.children.push( node ) }
+
+    removeChild = ( node: Node ) => { this.children = this.children.filter( n => n !== node ) }
+
+    getChild = ( node: Node ) => this.children.find( n => n === node)
+
+    overrideChilds = ( nodes: Node[] ) => { this.children = nodes }
+
+    getParentNode = () => this.parentNode
+
+    getPossibleAttribute( attr: string ){
+        return this.attributes?.[ attr as keyof Attribute ] as number | string | undefined
+    }
 }
 
 export default Node

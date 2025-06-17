@@ -10,6 +10,8 @@ class Attribute {
     public script  ?: string
     public content ?: string
     public noProp  ?: boolean
+    public title   ?: boolean
+    public href    ?: string
 
     constructor( props : AttributeInterface ){
         
@@ -23,6 +25,48 @@ class Attribute {
         Object.assign( this, { [attributeName] : value })
 
     }
+
+    removeAttribute = ( attributeName: keyof Attribute ) => delete this[ attributeName ]
+    
+    addAttirute( attrName: string, value: any ){
+        Object.assign( this, { [attrName]: value })
+    }
+
+    public static parseAttributes( attrStr: string ){
+        
+        const attr = new Attribute({})
+        
+        const attrRejex = /(!?)(\w+)(=(["'])(.*?)\4)?/g
+
+        let match
+
+        while ( match = attrRejex.exec( attrStr ) ) {
+
+            const isNegaded = match[1] === '!'
+
+            let attributeName = match[2] as keyof Attribute
+
+            if( match[5] !== undefined ) {
+
+                const number = Number( match[5] )
+
+                let content:string | number = match[5]
+
+                if( !isNaN( number ) ) content = number
+
+                attr.bind( attributeName, content )
+            }
+            else attr.bind( attributeName, !isNegaded )
+
+        }
+
+        return attr
+    }
+
+    getPossibleAttribute = ( attr: string ) => {
+        return this[ attr as keyof Attribute ] as number | string | undefined
+    }
+
 
 }
 

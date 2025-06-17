@@ -3,19 +3,23 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "tsc && node dist/main.js",
-    "dev": "ts-node-dev --respawn --transpile-only site/main.ts"
+    "buildEngine": "tsc -p ./tsconfig.json",
+    "copy:assets": "cpx \"site/Project/**/!(*.ts|*.tsx)\" dist/Project",
+    "copy:pages": "cpx site/pages/* dist/pages",
+    "start": "npm run buildEngine && npm run copy:pages && npm run copy:assets && node ./dist/main.js",
+    "buildGame": "tsc -p ./site/tsconfig.json && npm run copy:assets"
   },
   "keywords": [],
-  
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
     "@types/express": "^5.0.2",
+    "childprocess": "^2.0.2",
     "express": "^5.1.0"
   },
   "devDependencies": {
+    "cpx": "^1.5.0",
     "ts-node-dev": "^2.0.0",
     "tsc-watch": "^6.3.1",
     "typescript": "^5.8.3"

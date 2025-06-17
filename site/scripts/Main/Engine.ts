@@ -1,11 +1,31 @@
-import NodeManager from "../NodeManager.js"
+import DrawingInterface from "../Interfaces/DrawingInterface.js"
+import Interpreter from "../Managers/Interpreter.js"
+import EventManager from "../Managers/EventManager.js"
+import executeNodesScripts from "../ExecuteNodeScripts.js"
 import Rect from "../Rect.js"
-import EventHandler from "./Utils/EventHandler.js"
+import Post from "./Utils/Post.js"
+import NodeManager from "../Managers/NodeManager.js"
 
-interface DrawingProps {
-    canvas: HTMLCanvasElement,
-    ctx: CanvasRenderingContext2D
-}
+document.addEventListener('keydown', e => {
+
+    if( e.ctrlKey && e.key.toLocaleLowerCase() === 'r'){
+        e.preventDefault()
+        
+        if( !sended ){
+            console.warn('Transpilando o jogo.')
+
+            Post('Transpile').then( res => {
+                if( res == 'OK') window.location.reload()
+    
+                else console.error('Não foi possível transpilar o jogo.')
+            })
+
+        }
+
+        sended = true
+
+    }
+})
 
 class _Engine {
     
@@ -44,7 +64,7 @@ class _Engine {
 
         const { canvas, ctx } = this.configureCanvas()
 
-        EventHandler.addEvents( canvas )
+        EventManager.addEvents( canvas )
 
         this.loop({ canvas, ctx })
 
@@ -52,7 +72,7 @@ class _Engine {
         
     }
 
-    private loop( drawingObj: DrawingProps){
+    private loop( drawingObj: DrawingInterface){
 
         const LOOP = () => {
             
@@ -64,50 +84,73 @@ class _Engine {
         LOOP()
     }
 
-    private tickGameThings( ){
+    private tickGameThings(){
 
-        EventHandler.executeKeyActions()
+        EventManager.executeKeyActions()
 
     }
 
+    public isColliding( rect1: Rect, rect2:Rect ){
+        const a = rect1.getRect()
+        const b = rect2.getRect()
 
+        return (
+            a.x + a.w > b.x &&
+            a.y + a.h > b.y &&
+            a.x < b.x + b.w &&
+            a.y < b.y + b.h 
+        )
+    }
     
     //---------------------------------------------------------------------\\
     
-    private gameObjects:Rect[] = []
+    public loadGame(){
 
+        const nodes = NodeManager.getNodes()
+    
+        executeNodesScripts( nodes )
+
+    }
 
     private start(){
         
-       
+        setTimeout(() => {
+            this.loadGame()
+        }, 500);
         
     }
 
-    private update( drawingObj: DrawingProps ){
+    private update( drawingObj: DrawingInterface ){
 
         this.tickGameThings()
-        //console.log('Ticking')
 
-        const sortedObjects = this.gameObjects.sort( ( a, b ) => a.getZ() - b.getZ()  )
+        const nodes = NodeManager.getNodes() 
 
-        sortedObjects.forEach( obj => {
+        const sortedNodes = nodes.sort( ( a, b ) => a.getPropInstance()?.getZ()! - b.getPropInstance()?.getZ()!  )
 
-            // obj.update( drawingObj )
+        sortedNodes.forEach( node => {
+
+            const instance = node.getPropInstance()
+
+            if( !instance ) return  
+
+            instance.update( drawingObj  )
 
         })
     }
 
-
 }
 
-NodeManager.loadNodes().then( tree => {
+let sended = false
+
+
+Interpreter.ConvertHTML().then( tree => {
     console.log( tree )
-    
 })
 
-Object.assign( window, {NodeManager} )
-
+Object.assign( window, { Interpreter: Interpreter, NodeManager } )
 
 const Engine = _Engine.getInstance()
+
 
 export default Engine
