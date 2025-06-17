@@ -108,13 +108,21 @@ class Interpreter {
 
         if( attrs.href !== undefined ){
 
-            const path = ('!P' +  attrs.href).replace('!P.', 'Project')
+            let path = attrs.href
 
-            const html = await this.LoadJson( path )
+            if( attrs.href[0] === '.' ){
+                const splitedPath = attrs.href.split('')
+                splitedPath.shift()
+                path = splitedPath.join('')
+            }
+            const serverPath = 'Project' + path 
+
+            attrs.href = serverPath
+
+            const html = await this.LoadJson( serverPath )
             
             children = html.children
 
-            tag = "Scene"
         }
 
         const node = new Node({
