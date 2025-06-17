@@ -54,11 +54,10 @@ Os parâmetros são dinâmicos. Assim como as tags, não há restrições — vo
 * `noProp` : Não cria um prop para o node (focado mais em organização).
 * `name` : Usado juntamente com `src` pra definir o nome do asset (se não indicar o nome, o nome vai ser o mesmo do arquivo sem a extensão.)
 * `x`, `y`, `w`, `h` e `z`: Definição de posição e tamanho.
+* `href`: Usado para separar cenas em arquivos html, as citando em uma tag. (ao usar isso, o Node recebe o atributo "noProp")
 
-* `title`: Define o titulo da pagina (Apenas nos nodes pai)
-* `scene`: Define uma tag para ser usada como separador de cenas. (Evita que tudo do jogo seja processado ao mesmo tempo. Apenas nos nodes pai)
-* `initialsScene`: Define a cena inicial. (Apenas nos nodes pai)
-
+* `title`: Define o titulo da pagina (Apenas nos nodes filos da raiz)
+* `scene`: Define a cena inicial. (Apenas nos nodes filos da raiz)
 
 ### Parâmetros booleanos
 Ao informar apenas o nome de um parâmetro, ele será interpretado como `true`.
@@ -93,6 +92,11 @@ Ambos os códigos funcionam, mas o de cima é mais legível e recomendado.
 ```
 
 
+###### Anotações ( Dev )
+
+- A tag "Scenes" deve estar na raiz ou dentro do primeiro elemento da raiz
+
+- `repeat` ainda não existe
 
 
 
@@ -100,5 +104,5 @@ Ambos os códigos funcionam, mas o de cima é mais legível e recomendado.
 
 tags menionadas em código:
 * `Root`: É o primeiro node(oculto) que encapsula os do projeto. O unico Node que não tem Node pai nem atributos.
-
+* `Scene`: 
 ``

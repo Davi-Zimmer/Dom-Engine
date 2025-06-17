@@ -11,6 +11,7 @@ class Attribute {
     public content ?: string
     public noProp  ?: boolean
     public title   ?: boolean
+    public href    ?: string
 
     constructor( props : AttributeInterface ){
         
@@ -25,12 +26,12 @@ class Attribute {
 
     }
 
-    getPossibleAttribute( attr: string ){
-        return this[ attr as keyof Attribute ] as number | string | undefined
-    }
-
     removeAttribute = ( attributeName: keyof Attribute ) => delete this[ attributeName ]
     
+    addAttirute( attrName: string, value: any ){
+        Object.assign( this, { [attrName]: value })
+    }
+
     public static parseAttributes( attrStr: string ){
         
         const attr = new Attribute({})
@@ -61,6 +62,11 @@ class Attribute {
 
         return attr
     }
+
+    getPossibleAttribute = ( attr: string ) => {
+        return this[ attr as keyof Attribute ] as number | string | undefined
+    }
+
 
 }
 

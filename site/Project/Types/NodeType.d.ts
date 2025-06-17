@@ -38,4 +38,6 @@ export interface NodeType {
     getChild( node: NodeType ) : NodeType
 
     overrideChilds( nodes: NodeType[] ) : void
+
+    getPossibleAttribute( attr: string ) : string | number | boolean
 }
