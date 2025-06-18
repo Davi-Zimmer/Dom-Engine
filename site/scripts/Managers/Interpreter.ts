@@ -7,14 +7,14 @@ import NodeManager from "./NodeManager.js"
 
 
 interface SimpleObject {
-    tag:string,
+    tag: string,
     attributes: AttributeInterface
     children: SimpleObject[]
 }
 
 class Interpreter {
         
-    private static CreateNode( tag:string, attr:string='', children: []=[]  ):SimpleObject{
+    private static CreateNode( tag:string, attr:string='', children: SimpleObject[]=[]  ):SimpleObject{
         const attributes = Attribute.parseAttributes( attr )
         
         return {
@@ -24,7 +24,11 @@ class Interpreter {
         }
     }
 
-    public static ParseTagToObject( input:string ) {
+    public static LoadChild(){
+
+    }
+
+    public static async ParseTagToObject( input:string ) {
         const tagRegex = /<!--([\s\S]*?)-->|<(\w+)([^>]*)\/?>|<\/(\w+)>/g
         let stack = []
 
@@ -42,11 +46,37 @@ class Interpreter {
 
             else if( openTag ) {
            
+                const hrefPath = attrStr.match(/href\s*=\s*["'](.+?)["']/)?.[1]
+
+                let children:SimpleObject[] = []
+
+                let path = hrefPath
+                
+                if( hrefPath ){
+                    if( hrefPath[0] === '.' ){
+                        const splitedPath = hrefPath.split('')
+                        splitedPath.shift()
+                        path = splitedPath.join('')
+                    }
+
+                    const serverPath = 'Project' + path 
+
+                    attrStr.replace( hrefPath, serverPath )
+
+                    const html = await this.LoadJson( serverPath )
+
+                    children = html.children
+
+                }
+
                 const node = this.CreateNode(
                     openTag,
                     attrStr,
+                    children
                 )
 
+                if( !root.attributes.childRootId ) root.attributes.childRootId = node.attributes.id
+                
                 current.children.push( node )
                 
                 if( !full.endsWith("/>") ){
@@ -77,7 +107,7 @@ class Interpreter {
     public static LoadJson = async ( path: string ) => {
         const input = await Get( path )
 
-        const tree = this.ParseTagToObject( input )
+        const tree = await this.ParseTagToObject( input )
 
         return tree
     }
@@ -87,43 +117,22 @@ class Interpreter {
         NodeManager.addNode( node )
 
         const parentNode = node.getParentNode()
-        const attributes = node.getAttributes()
+        // const attributes = node.getAttributes()
 
         if( parentNode?.getTag().toLowerCase() === 'root' ){
             document.title = document.title = node.getPossibleAttribute('title') as string || document.title
         }
 
-        const nodeTag = node.getTag().toLowerCase() 
+        // const nodeTag = node.getTag().toLowerCase() 
 
-        if( nodeTag === 'scene' ) NodeManager.registerSceneID( attributes?.id! )
+        // if( nodeTag === 'scene' ) NodeManager.registerSceneID( attributes?.id! )
 
     }
     
-    public static async ParseJsonToNodes( current: SimpleObject, parentNode:Node ) {
+    public static ParseJsonToNodes( current: SimpleObject, parentNode:Node ) {
 
         let  { tag, attributes , children } = current
         const attrs = new Attribute( attributes )
-
-        console.log( children )
-
-        if( attrs.href !== undefined ){
-
-            let path = attrs.href
-
-            if( attrs.href[0] === '.' ){
-                const splitedPath = attrs.href.split('')
-                splitedPath.shift()
-                path = splitedPath.join('')
-            }
-            const serverPath = 'Project' + path 
-
-            attrs.href = serverPath
-
-            const html = await this.LoadJson( serverPath )
-            
-            children = html.children
-
-        }
 
         const node = new Node({
             tag,
@@ -132,12 +141,12 @@ class Interpreter {
         })
 
         this.NodeTreatment( node )
-    
-        const childresNodes:Node[] = []
 
-        for(const child of children) childresNodes.push( await this.ParseJsonToNodes( child, node ) )
-    
-        node.setChildren( childresNodes )
+        if( !(attrs.href || node.getTag().toLowerCase() === 'scene') ){
+            node.setChildren( 
+                children.map( child => this.ParseJsonToNodes( child, node ) )
+            )
+        }
 
         return node
 
@@ -149,7 +158,7 @@ class Interpreter {
 
         const tree = this.ParseJsonToNodes( obj, null! )
 
-        this.a( obj )
+        NodeManager.nodesLoaded( tree )
 
         return tree
     }

@@ -67,7 +67,6 @@ class Attribute {
         return this[ attr as keyof Attribute ] as number | string | undefined
     }
 
-
 }
 
 export default Attribute

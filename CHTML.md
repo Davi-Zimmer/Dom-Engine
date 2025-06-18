@@ -41,7 +41,7 @@ Também é possível adicionar comentários, exatamente como no HTML:
 Ou seja, dentro das tags só podem existir outras tags ou nada.
 
 ## Parâmetros
-Os parâmetros são dinâmicos. Assim como as tags, não há restrições — você pode criar quaisquer parâmetros.
+Os parâmetros são dinâmicos. Assim como as tags, não há restrições você pode criar quaisquer parâmetros.
 
 
 * `id`: Único. Não deve haver dois elementos com o mesmo id. Por padrão, ele é gerado aleatoriamente.
