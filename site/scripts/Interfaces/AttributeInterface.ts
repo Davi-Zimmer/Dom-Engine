@@ -7,6 +7,7 @@ interface AttributeInterface {
     script  ?: string
     content ?: string
     prop    ?: boolean
+    childRootId ?: string
 }
 
 export default AttributeInterface
